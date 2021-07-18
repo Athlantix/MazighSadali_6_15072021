@@ -1,9 +1,11 @@
 const express = require('express'); 
 const router = express.Router();    
 const usersCtrl = require('../controllers/user')  
+const auth = require('../middleware/auth');
 
-router.get('/', usersCtrl.AllUsers);
-router.get('/:id', usersCtrl.OneUser);
+router.get('/',auth, usersCtrl.AllUsers);
+router.get('/:id',auth, usersCtrl.OneUser);
+router.delete('/:id',auth, usersCtrl.DeleteUser);
 router.post('/signup', usersCtrl.signup);
 router.post('/login', usersCtrl.login);
 

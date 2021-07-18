@@ -4,9 +4,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const sha256 = require('sha256');
 const validator = require("email-validator");
-
+require('dotenv').config();
 //const jwtCtrl=require("../middleware/auth");
-const JWT_SECRET="MY_TOKEN_IS_SECRET";
+//const JWT_SECRET="MY_TOKEN_IS_SECRET";
 exports.AllUsers=(req,res,next)=>{
     let sql="SELECT * FROM user";
     con.query(sql,(err,result)=>{
@@ -22,6 +22,15 @@ exports.OneUser=(req,res,next)=>{
     con.query(sql,insert,(err,result)=>{
       if(err) throw err;
       console.log(result);
+      res.send(result);
+    })
+  }
+
+  exports.DeleteUser=(req,res,next)=>{
+    let sql="DELETE FROM user WHERE id=?;";
+    let insert=[req.params.id];
+    con.query(sql,insert,(err,result)=>{
+      if(err) throw err;
       res.send(result);
     })
   }
@@ -56,14 +65,15 @@ exports.login=(req,res,next)=>{
       if(err)  res.status(400).json({ message: 'faux'});
      console.log(result[0]);
       if(result[0]==undefined){ res.status(400).json({ message: 'Aucun utilisateurs confirmé' }); }
-      else{dataId=result[0].id;
+      else{
+        dataId=result[0].id;
         
       bcrypt.compare(req.body.password, result[0].password, function(err, result) {
         if(result){res.status(200).json({ userId: dataId,
           token: jwt.sign(
             {userId: dataId },
-            JWT_SECRET,
-            { expiresIn: "24h" }
+            process.env.JWT_SECRET,
+            { expiresIn:process.env.JWT_EXPIR }
           )
         })}
         else { res.status(400).json({ message: 'Aucuns utilisateurs ne correspond'})}

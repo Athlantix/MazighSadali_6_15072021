@@ -1,9 +1,10 @@
 const mysql = require('mysql');
+require('dotenv').config();  
 
 let con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "athlantix",
+    host: process.env.BDD_HOST,
+    user:process.env.BDD_USER,
+    password: process.env.BDD_PASSWORD,
     database:'utilisateurs'
   });
 

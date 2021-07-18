@@ -4,7 +4,9 @@ const con=require("../config_db/db_connect");
 
 exports.CreatePublication=(req,res,next)=>{
   let sql= "INSERT INTO publication VALUES(NULL,?,NOW(),?,?);";
-  let insert=[req.body.id,req.body.message, req.body.image];
+  let image= `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+  let insert=[req.body.id,req.body.message, image];
+
   con.query(sql,insert,(err,result)=>{
     if(err) {res.status(400).json({ message: 'Il y a une erreur dans le poste' })}
     else{  res.status(200).json({ message: 'Poste ajouté' });}
@@ -42,5 +44,23 @@ exports.AllPublication=(req,res,next)=>{
     con.query(sql,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à récupérer les commentaires' })}
       else{  res.status(200).json(result )}
+    })
+  }
+
+  exports.PostCommentaire=(req,res,next)=>{
+    let sql="insert into commentaire values (null,?,?,NOW(),?);";
+    let insert=[req.body.id_user,req.body.id_publication,req.body.message];
+    con.query(sql,insert,(err,result)=>{
+      if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à ajouter votre commentaires' })}
+      else{  res.status(200).json({message:'Commentaire ajouté'} )}
+    })
+  }
+
+  exports.DeleteCommentaire=(req,res,next)=>{
+    let sql=" delete from commentaire where id=?;";
+    let insert=[req.params.id];
+    con.query(sql,insert,(err,result)=>{
+      if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à supprimer votre commentaires' })}
+      else{  res.status(200).json({message:'Commentaire supprimé'} )}
     })
   }
