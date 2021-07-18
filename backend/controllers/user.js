@@ -38,8 +38,6 @@ exports.signup=(req,res,next)=>{
       con.query(sql,insert,(err,result)=>{
         if(err) {res.status(400).json({ message: 'Utilisateur existant' })}
         else{  res.status(200).json({ message: 'Utilisateur ajouté' });}
-      
-      
         })
       });
     }
@@ -53,7 +51,6 @@ exports.login=(req,res,next)=>{
   
     let sql= "SELECT email,id,password from user where email = ?";
     let insert=[sha256.x2(req.body.email)];
-    
     con.query(sql,insert,(err,result)=>{
       
       if(err)  res.status(400).json({ message: 'faux'});
