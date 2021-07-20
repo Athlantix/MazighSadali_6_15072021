@@ -58,7 +58,7 @@ exports.signup=(req,res,next)=>{
   
 exports.login=(req,res,next)=>{
   
-    let sql= "SELECT email,id,password from user where email = ?";
+    let sql= "SELECT email,id,password,acces from user where email = ?";
     let insert=[sha256.x2(req.body.email)];
     con.query(sql,insert,(err,result)=>{
       
@@ -66,12 +66,16 @@ exports.login=(req,res,next)=>{
      console.log(result[0]);
       if(result[0]==undefined){ res.status(400).json({ message: 'Aucun utilisateurs confirmé' }); }
       else{
-        dataId=result[0].id;
+       let dataId=result[0].id;
+       let dataAcces=result[0].acces;
+        
+        
         
       bcrypt.compare(req.body.password, result[0].password, function(err, result) {
+        console.log(dataId);
         if(result){res.status(200).json({ userId: dataId,
           token: jwt.sign(
-            {userId: dataId },
+            {userId: dataId, acces: dataAcces },
             process.env.JWT_SECRET,
             { expiresIn:process.env.JWT_EXPIR }
           )

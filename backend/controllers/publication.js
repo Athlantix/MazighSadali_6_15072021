@@ -1,6 +1,7 @@
 const fs = require('fs');
 const con=require("../config_db/db_connect"); 
-
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 exports.CreatePublication=(req,res,next)=>{
   let sql= "INSERT INTO publication VALUES(NULL,?,NOW(),?,?);";
@@ -22,30 +23,55 @@ exports.AllPublication=(req,res,next)=>{
 
 
   exports.OnePublication=(req,res,next)=>{
+
     let sql=" SELECT * FROM publication WHERE publication.id=?;";
     let insert=[req.params.id];
+    
+
+    let sqlCom="SELECT * FROM commentaire WHERE id_publication= ?"
     con.query(sql,insert,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à récupérer la publications' })}
-      else{  res.status(200).json( result );}
+      else{ 
+        let publication=result;
+        con.query(sqlCom,insert,(err,result)=>{
+          if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à récupérer la publications' })}
+          else{  res.status(200).json( 
+            {publication:publication,
+             commentaire:result} );}
+        })
+      }
     })
+
+   
+
+
   }
 
 
   exports.DeletePublication=(req,res,next)=>{
+
+     const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token,process.env.JWT_SECRET); 
+    console.log(decodedToken.acces);
+   
+
     let sql=" DELETE publication,commentaire FROM publication INNER JOIN commentaire ON publication.id = commentaire.id_publication where publication.id=?;";
     let insert=[req.params.id];
-    con.query(sql,insert,(err,result)=>{
-      if(err) {res.status(400).json({ err })}
-      else{  res.status(200).json( {message:'Nous avons supprimé la publication'})}
-    })
+    if(decodedToken.acces===1){
+      con.query(sql,insert,(err,result)=>{
+        if(err) {res.status(400).json({ err })}
+        else{  res.status(200).json( {message:'Nous avons supprimé la publication'})}
+      })
+    }
+    else{
+      con.query(sql,insert,(err,result)=>{
+        if(err) {res.status(400).json({ err })}
+        else{  res.status(200).json( {message:'Nous avons supprimé la publication'})}
+      })
+    }
+    
   }
-  exports.AllCommentaire=(req,res,next)=>{
-    let sql="SELECT * FROM commentaire";
-    con.query(sql,(err,result)=>{
-      if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à récupérer les commentaires' })}
-      else{  res.status(200).json(result )}
-    })
-  }
+
 
   exports.PostCommentaire=(req,res,next)=>{
     let sql="insert into commentaire values (null,?,?,NOW(),?);";
@@ -57,10 +83,25 @@ exports.AllPublication=(req,res,next)=>{
   }
 
   exports.DeleteCommentaire=(req,res,next)=>{
+
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token,process.env.JWT_SECRET); 
+    console.log(decodedToken.acces);
+   
     let sql=" delete from commentaire where id=?;";
     let insert=[req.params.id];
-    con.query(sql,insert,(err,result)=>{
-      if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à supprimer votre commentaires' })}
-      else{  res.status(200).json({message:'Commentaire supprimé'} )}
-    })
+
+    if (decodedToken.acces===1){
+        con.query(sql,insert,(err,result)=>{
+        if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à supprimer votre commentaires' })}
+        else{  res.status(200).json({message:'Commentaire supprimé'} )}
+      })
+    }
+    else{
+      con.query(sql,insert,(err,result)=>{
+        if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à supprimer votre commentaires' })}
+        else{  res.status(200).json({message:'Commentaire supprimé'} )}
+      })
+    }
+   
   }
