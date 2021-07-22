@@ -12,6 +12,8 @@
       <h2>{{post.user_id}}</h2>
       <p>{{post.texte}}</p>
       <p>{{post.date}}</p>
+      <button v-if="parseInt(idUser)===parseInt(post.user_id)"  v-on:click="deletePublication(post.id)"> Supprimer</button>
+       <span v-else ></span>
    </div>
    </router-link>
 </div>
@@ -20,6 +22,9 @@
 </template>
 
 <script>
+
+
+
 const axios = require('axios');
 const token=localStorage.getItem("token");
 
@@ -35,6 +40,7 @@ export default {
   name: 'publicationUser',
     data(){
     return {
+      userVerif:'',
       idUser:localStorage.getItem('userId'),
       messageUser:'',
       imageUser:null,
@@ -43,17 +49,18 @@ export default {
       }
   },
 
- 
-      async created(){
-  
-    axios.get("http://localhost:3000/api/publication")
+    async created(){
+       axios.get("http://localhost:3000/api/publication")
       .then(response=>{
+       
          if(localStorage.getItem('token')!==null){
         for(let i=0;i<response.data.length;i++){
         this.post.push(response.data[i]);console.log(response.data[i])
         }
          }
          console.log(response.data)
+
+
       }).catch();
     
   },
@@ -65,9 +72,12 @@ export default {
                console.log("Ajouté"+response);
                document.location.reload();
             })
+        },
+
+        deletePublication(param){
+           axios.delete('http://localhost:3000/api/publication/'+param)
+           .then(response=>{ console.log(response)})
         }
-
-
   },
 
 }

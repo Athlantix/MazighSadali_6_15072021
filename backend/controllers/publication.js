@@ -55,7 +55,7 @@ exports.AllPublication=(req,res,next)=>{
     console.log(decodedToken.acces);
    
 
-    let sql=" DELETE publication,commentaire FROM publication INNER JOIN commentaire ON publication.id = commentaire.id_publication where publication.id=?;";
+    let sql=" DELETE FROM publication WHERE id=?;";
     let insert=[req.params.id];
     if(decodedToken.acces===1){
       con.query(sql,insert,(err,result)=>{
