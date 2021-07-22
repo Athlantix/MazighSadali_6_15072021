@@ -23,6 +23,7 @@ export default {
       deleteStorage () {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
+        localStorage.removeItem('infoUser');
       }
     }
 }

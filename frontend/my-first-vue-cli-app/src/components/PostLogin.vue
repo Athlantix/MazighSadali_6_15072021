@@ -24,6 +24,8 @@ export default {
             .then(response =>{
                 localStorage.setItem("token",response.data.token)
                 localStorage.setItem("userId",response.data.userId)
+                let dataUser=[{nom:response.data.nom,prenom:response.data.prenom,poste:response.data.poste,acces:response.data.acces}]
+                localStorage.setItem("infoUser",JSON.stringify(dataUser))
                   document.location.reload();
             })
         }

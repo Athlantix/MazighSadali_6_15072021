@@ -2,7 +2,7 @@
   <div id='App'>
  <router-link to="/accueil">Acceuil</router-link>
 <router-link to="/profil">Profil</router-link>
-  <router-link to="/">Déconnexion</router-link>
+  <router-link v-on:click="deleteStorage()" to="/">Déconnexion</router-link>
   <OnePublicationUser />
        
     </div>
@@ -16,7 +16,12 @@ export default {
   name: 'App',
   components: {
     OnePublicationUser
-  }
+  },
+    methods: {
+      deleteStorage () {
+        localStorage.removeItem('token');localStorage.removeItem('userId');localStorage.removeItem('infoUser');
+      }
+    }
 }
 
 </script>

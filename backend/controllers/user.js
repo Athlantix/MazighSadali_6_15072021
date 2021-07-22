@@ -58,8 +58,11 @@ exports.signup=(req,res,next)=>{
   
 exports.login=(req,res,next)=>{
   
-    let sql= "SELECT email,id,password,acces from user where email = ?";
+    let sql= "SELECT id,nom,prenom,poste,email,password,acces from user where email = ?";
     let insert=[sha256.x2(req.body.email)];
+
+    
+   
     con.query(sql,insert,(err,result)=>{
       
       if(err)  res.status(400).json({ message: 'faux'});
@@ -68,11 +71,15 @@ exports.login=(req,res,next)=>{
       else{
        let dataId=result[0].id;
        let dataAcces=result[0].acces; 
+       let dataNom=result[0].nom;
+       let dataPrenom=result[0].prenom;
+       let dataPoste=result[0].poste;
+   
       bcrypt.compare(req.body.password, result[0].password, function(err, result) {
-        console.log(dataId);
-        if(result){res.status(200).json({ userId: dataId,
+     
+        if(result){res.status(200).json({ userId: dataId,acces: dataAcces,prenom: dataPrenom,nom: dataNom,poste: dataPoste,
           token: jwt.sign(
-            {userId: dataId, acces: dataAcces },
+            {userId: dataId },
             process.env.JWT_SECRET,
             { expiresIn:process.env.JWT_EXPIR }
           )
