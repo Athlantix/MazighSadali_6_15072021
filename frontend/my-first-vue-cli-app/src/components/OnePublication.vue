@@ -23,9 +23,6 @@
 <script>
 const axios = require('axios');
 
-
-
-
 export default {
   name: 'OnePublicationUser',
     data(){
@@ -59,8 +56,10 @@ export default {
   },
     methods:{
           createCommentairePost(){
+              let userId=localStorage.getItem("userId")
+              console.log(userId)
             axios.post('http://localhost:3000/api/publication/'+this.id_publication,
-            {id_user:this.id_user,id_publication:this.id_publication, message:this.commentaireUser})
+            {id_user:userId,id_publication:this.id_publication, message:this.commentaireUser})
             .then(response =>{
                console.log("Ajouté"+response);
                document.location.reload();

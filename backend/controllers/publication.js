@@ -31,7 +31,7 @@ exports.AllPublication=(req,res,next)=>{
     
 
     let sqlCom=
-    "SELECT DISTINCT commentaire.id,user_id,id_publication,dateCommentaire,message,nom,prenom FROM commentaire INNER JOIN user ON commentaire.user_id=user.id ORDER BY commentaire.id DESC;"
+    "SELECT DISTINCT commentaire.id,user_id,id_publication,dateCommentaire,message,user.nom,user.prenom FROM commentaire INNER JOIN user ON commentaire.user_id=user.id WHERE commentaire.id_publication=? ORDER BY commentaire.id DESC;"
     con.query(sql,insert,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à récupérer la publications' })}
       else{ 
