@@ -5,8 +5,8 @@ require('dotenv').config();
 
 exports.CreatePublication=(req,res,next)=>{
   let sql= "INSERT INTO publication VALUES(NULL,?,NOW(),?,?);";
-  let image= `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-  let insert=[req.body.id,req.body.message, image];
+  //let image= `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+  let insert=[req.body.id,req.body.message,req.body.image];
 
   con.query(sql,insert,(err,result)=>{
     if(err) {res.status(400).json({ message: 'Il y a une erreur dans le poste' })}

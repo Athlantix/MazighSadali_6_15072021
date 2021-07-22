@@ -1,10 +1,19 @@
 <template>
 <div>
 
-<div class="publication" v-for="post in post" :key="post[i]" >
-  <h2>{{post.user_id}}</h2>
-  <p>{{post.texte}}</p>
-  <p>{{post.date}}</p>
+  <div class="creaPublication">
+    <p>Poster une publication</p>
+    <input type="text" v-model="messageUser"/>
+    <button v-on:click="createPost()">Poster</button>
+  </div>
+<div class="publication"  v-for="post in post" :key="post[i]" >
+    <router-link v-bind:to='"/publication/"+post.id' >
+    <div>
+      <h2>{{post.user_id}}</h2>
+      <p>{{post.texte}}</p>
+      <p>{{post.date}}</p>
+   </div>
+   </router-link>
 </div>
 </div>
 
@@ -12,7 +21,8 @@
 
 <script>
 const axios = require('axios');
-const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjM0LCJhY2NlcyI6MiwiaWF0IjoxNjI2ODAyNzA5LCJleHAiOjE2MjY4ODkxMDl9.bC0Mw8KTOv2_RffcfmZt_pyB9xhUs3VGzL2GrsZl4M4'
+const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjM0LCJhY2NlcyI6MiwiaWF0IjoxNjI2ODYzOTgyLCJleHAiOjE2MjY5NTAzODJ9.EOuuucW10a9qeN_PcwWOeGHE0AKls45_UNJ9_-by-4s'
+
 axios.interceptors.request.use(
   config=>{
     config.headers.authorization=`Bearer ${token}`;
@@ -23,24 +33,41 @@ axios.interceptors.request.use(
 
 export default {
   name: 'publicationUser',
-  methods:{
-
-  },
-  data(){
+    data(){
     return {
+      idUser:localStorage.getItem('userId'),
+      messageUser:'',
+      imageUser:null,
+      id_publication:0,
       post:[]
       }
   },
-  created(){
-    axios
-      .get("http://localhost:3000/api/publication")
+
+ 
+      async created(){
+  
+    axios.get("http://localhost:3000/api/publication")
       .then(response=>{
+         if(localStorage.getItem('token')!==null){
         for(let i=0;i<response.data.length;i++){
-        this.post.push(response.data[i]);console.log(console.log(response.data[i]))
+        this.post.push(response.data[i]);console.log(response.data[i])
         }
-       
-      }).catch(); 
-  }
+         }
+      }).catch();
+    
+  },
+ methods:{
+          createPost(){
+            axios.post('http://localhost:3000/api/publication',
+            {id:this.idUser, message:this.messageUser,image:this.imageUser})
+            .then(response =>{
+               console.log("Ajouté"+response)
+            })
+        }
+
+
+  },
+
 }
 </script>
 

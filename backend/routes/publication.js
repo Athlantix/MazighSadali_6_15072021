@@ -4,7 +4,7 @@ const publicationCtrl = require('../controllers/publication')
 const auth = require('../middleware/auth');
 
 
-router.post("/commentaire",auth, publicationCtrl.PostCommentaire);
+router.post("/:id",auth, publicationCtrl.PostCommentaire);
 router.delete("/commentaire/:id",auth, publicationCtrl.DeleteCommentaire);
 router.get("/",auth, publicationCtrl.AllPublication);
 router.post("/",auth, publicationCtrl.CreatePublication);
