@@ -22,7 +22,14 @@
 
 <script>
 const axios = require('axios');
-
+const token=localStorage.getItem("token");
+axios.interceptors.request.use(
+  config=>{
+    config.headers.authorization=`Bearer ${token}`;
+    return config
+  },
+  error => {return Promise.reject(error)}
+)
 export default {
   name: 'OnePublicationUser',
     data(){
