@@ -67,10 +67,7 @@ exports.login=(req,res,next)=>{
       if(result[0]==undefined){ res.status(400).json({ message: 'Aucun utilisateurs confirmé' }); }
       else{
        let dataId=result[0].id;
-       let dataAcces=result[0].acces;
-        
-        
-        
+       let dataAcces=result[0].acces; 
       bcrypt.compare(req.body.password, result[0].password, function(err, result) {
         console.log(dataId);
         if(result){res.status(200).json({ userId: dataId,

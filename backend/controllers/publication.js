@@ -14,7 +14,8 @@ exports.CreatePublication=(req,res,next)=>{
   })
 }
 exports.AllPublication=(req,res,next)=>{
-    let sql="SELECT * FROM publication ORDER BY id DESC;";
+    let sql=
+    " SELECT DISTINCT publication.id,user_id,date,texte,image,nom,prenom,poste FROM publication INNER JOIN user ON publication.user_id=user.id ORDER BY publication.id DESC;";
     con.query(sql,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à récupérer les publications ' })}
       else{  res.status(200).json( result)}
@@ -24,11 +25,13 @@ exports.AllPublication=(req,res,next)=>{
 
   exports.OnePublication=(req,res,next)=>{
 
-    let sql=" SELECT * FROM publication WHERE publication.id=?;";
+    let sql=
+    " SELECT DISTINCT publication.id,user_id,date,texte,image,nom,prenom,poste FROM publication INNER JOIN user ON publication.user_id=user.id WHERE publication.id=? ORDER BY publication.id DESC;";
     let insert=[req.params.id];
     
 
-    let sqlCom="SELECT * FROM commentaire WHERE id_publication= ? ORDER BY id DESC"
+    let sqlCom=
+    "SELECT DISTINCT commentaire.id,user_id,id_publication,dateCommentaire,message,nom,prenom FROM commentaire INNER JOIN user ON commentaire.user_id=user.id ORDER BY commentaire.id DESC;"
     con.query(sql,insert,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à récupérer la publications' })}
       else{ 

@@ -1,12 +1,13 @@
 <template>
 <div>
     <div class="publication" v-for="onePost in onePost" :key="onePost[i]">
-        <h2>{{onePost.user_id}}</h2>
+        <h2>{{onePost.prenom}} {{onePost.nom}}</h2>
         <p>{{onePost.texte}}</p>
         <p>{{onePost.date}}</p>
     </div>
     <div class="commentaire" v-for="commentaire in commentaire" :key="commentaire[i]">
-        <h2>{{commentaire.message}}</h2>
+        <h2>{{commentaire.prenom}} {{commentaire.nom}}</h2>
+         <p>{{commentaire.message}}</p>
     </div>
     <div class="creaPublication">
         <input type="text" v-model="commentaireUser"/>
@@ -88,6 +89,11 @@ export default {
   border:1px solid black;
   text-align:center;
   width:50%;
+  margin:10px;
+}
+.commentaire{
+    border:1px solid black;
+     width:50%;
   margin:10px;
 }
 </style>

@@ -9,8 +9,9 @@
 <div class="publication"  v-for="post in post" :key="post[i]" >
     <router-link v-bind:to='"/publication/"+post.id' >
     <div>
-      <h2>{{post.user_id}}</h2>
-      <p>{{post.texte}}</p>
+    
+      <p>{{post.prenom}} {{post.nom}}</p>
+      <h2>{{post.texte}}</h2>
       <p>{{post.date}}</p>
       <button v-if="parseInt(idUser)===parseInt(post.user_id)"  v-on:click="deletePublication(post.id)"> Supprimer</button>
        <span v-else ></span>
