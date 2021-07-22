@@ -21,7 +21,7 @@
 
 <script>
 const axios = require('axios');
-const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjM0LCJhY2NlcyI6MiwiaWF0IjoxNjI2ODYzOTgyLCJleHAiOjE2MjY5NTAzODJ9.EOuuucW10a9qeN_PcwWOeGHE0AKls45_UNJ9_-by-4s'
+const token=localStorage.getItem("token");
 
 axios.interceptors.request.use(
   config=>{
@@ -53,6 +53,7 @@ export default {
         this.post.push(response.data[i]);console.log(response.data[i])
         }
          }
+         console.log(response.data)
       }).catch();
     
   },
@@ -61,7 +62,8 @@ export default {
             axios.post('http://localhost:3000/api/publication',
             {id:this.idUser, message:this.messageUser,image:this.imageUser})
             .then(response =>{
-               console.log("Ajouté"+response)
+               console.log("Ajouté"+response);
+               document.location.reload();
             })
         }
 

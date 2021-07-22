@@ -14,7 +14,7 @@ exports.CreatePublication=(req,res,next)=>{
   })
 }
 exports.AllPublication=(req,res,next)=>{
-    let sql="SELECT * FROM publication;";
+    let sql="SELECT * FROM publication ORDER BY id DESC;";
     con.query(sql,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à récupérer les publications ' })}
       else{  res.status(200).json( result)}
@@ -28,7 +28,7 @@ exports.AllPublication=(req,res,next)=>{
     let insert=[req.params.id];
     
 
-    let sqlCom="SELECT * FROM commentaire WHERE id_publication= ?"
+    let sqlCom="SELECT * FROM commentaire WHERE id_publication= ? ORDER BY id DESC"
     con.query(sql,insert,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à récupérer la publications' })}
       else{ 
