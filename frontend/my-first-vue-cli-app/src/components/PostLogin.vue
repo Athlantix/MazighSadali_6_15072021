@@ -2,11 +2,12 @@
     <div>
     <p>Email: <input type="texte"  v-model="email"/></p>
     <p>Mot de passe <input type="texte" v-model="password"/></p>
-    <button v-on:click="checkForm"> <router-link to="/accueil" >Valider</router-link></button>
+    <button v-on:click="checkForm"> </button>
    </div>
 </template>
 
 <script>
+
 const axios = require('axios');
 export default {
     name: 'postLogin',
@@ -26,7 +27,10 @@ export default {
                 localStorage.setItem("userId",response.data.userId)
                 let dataUser=[{nom:response.data.nom,prenom:response.data.prenom,poste:response.data.poste,acces:response.data.acces}]
                 localStorage.setItem("infoUser",JSON.stringify(dataUser))
-                  document.location.reload();
+                  //document.location.reload();
+                  //<router-link to="/accueil" >Valider</router-link>
+
+                  this.$router.push({ path: '/accueil' })
             })
         }
       }

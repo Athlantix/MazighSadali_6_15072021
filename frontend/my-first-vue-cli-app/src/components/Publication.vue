@@ -78,7 +78,7 @@ export default {
         deletePublication(param){
            axios.delete('http://localhost:3000/api/publication/'+param)
            .then(response=>{ console.log(response); });
-              document.location.reload();
+              this.$router.go()
         }
   },
 

@@ -68,8 +68,10 @@ export default {
             axios.post('http://localhost:3000/api/publication/'+this.id_publication,
             {id_user:userId,id_publication:this.id_publication, message:this.commentaireUser})
             .then(response =>{
-               console.log("Ajouté"+response);
-               document.location.reload();
+                console.log(response);
+               console.log(this.id_publication);
+               
+               this.$router.go()
             })
         }
   },
