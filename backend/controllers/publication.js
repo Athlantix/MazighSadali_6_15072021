@@ -63,12 +63,13 @@ if(req.file===undefined){
 else { 
   console.log("OH OUIIII")
   image= `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+
 }
 
 let sql=
-"UPDATE publication SET texte= ? , image= ? where user_id= ?;";
+"UPDATE publication SET texte= ? , image = ? WHERE id= ?  ;";
 
-let insert=[req.body.message, image, req.body.id]
+let insert=[req.body.message, image,req.body.id]
 console.log(req.body.id+" =id HAAAAAAAAA msg= "+req.body.message+" haaaaa img="+image)
     con.query(sql,insert,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à modifier la publication ' })}

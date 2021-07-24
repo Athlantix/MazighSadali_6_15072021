@@ -1,48 +1,50 @@
 <template>
-<div>
+<div class="contain">
+  <div class="menu">
+  <router-link to="/profil" class="routerLink">Profil</router-link>
   <a v-on:click="deleteStorage()">Déconnexion</a>
-  <h1>Bienvenue: {{prenom}} {{nom}}</h1>
-  <div class="creaPublication">
-    <p>Poster une publication</p>
-  
-
-  <form @submit.prevent="createPost()" enctype="multipart/form-data">
-    <input type="text" v-model="messageUser"/>
-  <label for="file" class="label">upload</label>
-  <input type="file" accept="image/*" ref="file" @change="uploadImage()"/>
-   <button>Poster</button>
-  </form>
-
-   
   </div>
-<div class="publication"  v-for="post in post" :key="post[i]" >
-    <router-link v-bind:to='"/publication/"+post.id' >
-    <div>
-    
-      <p>{{post.prenom}} {{post.nom}}</p>
-      <img :src="post.image" class="image"/>
-      <h2>{{post.texte}}</h2>
-      <p>{{post.date}}</p>
-   </div>
-   </router-link>
-
-         <button v-if="parseInt(idUser)===parseInt(post.user_id) || userAcces===1 "  v-on:click="deletePublication(post.id)"> Supprimer</button>
-       <span v-else ></span>
-       
-      <button v-if="parseInt(idUser)===parseInt(post.user_id)" v-on:click="showInput()"> Modifier</button>
-        <div class="modif" v-if="show==true && parseInt(idUser)===parseInt(post.user_id)">
-
-          <form @submit.prevent="modifyPublication(post.id)" enctype="multipart/form-data">
-            <input type="text" v-model="messageUser"/>
-            <label for="file" class="label">upload</label>
-            <input type="file" accept="image/*" ref="file" @change="uploadImage()"/>
-            <button >Envoyer</button>
+<div class="accueil">
+  
+  <h1>Bienvenue: {{prenom}} {{nom}}</h1>
+    <div class="creaPublication">
+        
+          <form @submit.prevent="createPost()" enctype="multipart/form-data">
+          <p>Poster une publication <input type="text" v-model="messageUser"/> </p>
+          
+          <label for="file" class="label">Ou une photo    </label>
+          <input type="file" accept="image/*" ref="file" @change="uploadImage()"/><br>
+          <button>Poster</button>
         </form>
-       
-        </div>
+    </div>
+  <div class="publication"  v-for="post in post" :key="post[i]" >
+      <router-link v-bind:to='"/publication/"+post.id' class="router" >
+      <div class="router">
+      
+        <p>{{post.prenom}} {{post.nom}}</p>
+        <img :src="post.image" class="image"/>
+        <h2>{{post.texte}}</h2>
+        <i>{{post.date}}</i>
+    </div>
+    </router-link>
+
+        <button v-if="parseInt(idUser)===parseInt(post.user_id) || userAcces===1 "  v-on:click="deletePublication(post.id)"> Supprimer</button>
         <span v-else ></span>
+        <button v-if="parseInt(idUser)===parseInt(post.user_id)" v-on:click="showInput()"> Modifier</button>
+          <div class="modif" v-if="show==true && parseInt(idUser)===parseInt(post.user_id)">
+
+            <form @submit.prevent="modifyPublication(post.id)" enctype="multipart/form-data">
+              <input type="text" v-model="messageUser"/>
+              <label for="file" class="label">upload</label>
+              <input type="file" accept="image/*" ref="file" @change="uploadImageModif()"/>
+              <button >Envoyer</button>
+          </form>
+        
+          </div>
+          <span v-else ></span>
+  </div>
 </div>
-</div>
+  </div>
 
 </template>
 
@@ -72,6 +74,7 @@ export default {
       idUser:null,
       messageUser:'',
       file:'',
+      fileModif:'',
       id_publication:0,
       post:[],
       }
@@ -109,6 +112,12 @@ export default {
             this.file=this.$refs.file.files[0];
             console.log(this.file)
                   },
+
+         uploadImageModif(){
+             this.fileModif=this.$refs.file.files[0];
+            console.log(this.file)
+
+         },
 
           createPost(){
 
@@ -149,10 +158,10 @@ export default {
         },
         modifyPublication(param){
 
-              if(this.file===''){
+              if(this.fileModif===''){
              alert("pas définie")
              this.imageUser="";
-               axios.put('http://localhost:3000/api/publication/'+param,{id:this.idUser,message:this.messageUser,image:''})
+               axios.put('http://localhost:3000/api/publication/'+param,{id:param,message:this.messageUser,image:''})
             .then(response =>{
                console.log("Ajouté"+response);
                this.$router.go()
@@ -160,8 +169,8 @@ export default {
            }
            else{
              const formData=new FormData();
-            formData.append('image',this.file);
-            formData.append('id',this.idUser);
+            formData.append('image',this.fileModif);
+            formData.append('id',param);
 
            axios.put('http://localhost:3000/api/publication/'+param,
             formData)
@@ -192,13 +201,63 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.publication{
-  border:1px solid black;
+
+.contain{
+ width:100%
+}
+
+.accueil{
+  width:90%;
   text-align:center;
-  width:50%;
-  margin:10px;
+  margin:0 auto;
+}
+p{
+  color:black;
+
+}
+.router{
+  color:black;
+  text-decoration: none;
+}
+.publication{
+  background-color: rgb(224, 241, 255);
+  text-align:center;
+  width:97%;
+  margin:0 auto;
+  margin-top:15px;
+  padding:10px;
 }
 .image{
-  width:5%;
+  width:30%;
+}
+.menu{
+  padding:10px;
+  color:white;
+  display:flex;
+ background-color: black;
+  justify-content: center;
+  justify-content:flex-end;
+}
+.routerLink{
+  text-decoration: none;
+  margin-right:1%;
+  color:white;
+}
+
+.router p{
+  font-size:20px;
+  font-weight:bold;
+ 
+}
+h2{
+  padding:10px;
+  background-color: white;
+}
+button{
+  padding:5px;
+  background-color: rgb(59, 91, 161);
+  border:none;
+  margin:15px;
+  color:white;
 }
 </style>

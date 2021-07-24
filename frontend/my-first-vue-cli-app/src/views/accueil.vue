@@ -1,6 +1,6 @@
 <template>
     <div id="App">
-       <router-link to="/profil">Profil</router-link>
+      
         
         <publicationUser />
       

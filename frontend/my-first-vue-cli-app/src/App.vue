@@ -1,13 +1,17 @@
 <template>
   <div id="nav">
-
-  </div>
   <router-view/>
+  </div>
+
 </template>
 
 <script>
 
 </script>
 <style lang="scss">
+body{ font-family: 'Roboto', sans-serif;
+      color:black;
+      margin:0px;
+}
 
 </style>
