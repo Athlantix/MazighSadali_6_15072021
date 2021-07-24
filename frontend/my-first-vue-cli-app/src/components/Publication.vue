@@ -17,6 +17,13 @@
    </router-link>
          <button v-if="parseInt(idUser)===parseInt(post.user_id)"  v-on:click="deletePublication(post.id)"> Supprimer</button>
        <span v-else ></span>
+        <button v-if="parseInt(idUser)===parseInt(post.user_id)" v-on:click="showInput()"> Modifier</button>
+      <div class="modif" v-if="show==true && parseInt(idUser)===parseInt(post.user_id)">
+         <input type="text" v-model="messageUser"/>
+        <button   v-on:click="modifyPublication(post.id)">Envoyer</button>
+       
+        </div>
+        <span v-else ></span>
 </div>
 </div>
 
@@ -41,6 +48,7 @@ export default {
   name: 'publicationUser',
     data(){
     return {
+      show:null,
       userVerif:'',
       idUser:null,
       messageUser:'',
@@ -90,12 +98,23 @@ export default {
           this.$router.go()
            });       
         },
+        modifyPublication(param){
+           axios.put('http://localhost:3000/api/publication/'+param,
+            {id:param, texte:this.messageUser,image:this.imageUser})
+           .then(response=>{ console.log(response); 
+             console.log("supprimé"+response)
+          this.$router.go()
+           }); 
+        },
          
       deleteStorage () {
         localStorage.clear();
         this.idUser=null;
         document.location.href = "/";
-      }
+      },
+     showInput(){
+       this.show=true;
+     }
   },
 
 }

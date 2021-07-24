@@ -44,10 +44,16 @@ exports.AllPublication=(req,res,next)=>{
         })
       }
     })
+  }
 
-   
-
-
+  exports.ModifyPublication=(req,res,next)=>{
+    let sql=
+"UPDATE publication SET texte= ? , image= ? where id= ?;";
+let insert=[req.body.texte, req.body.image, req.body.id]
+    con.query(sql,insert,(err,result)=>{
+      if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à modifier la publication ' })}
+      else{  res.status(200).json( result)}
+    })
   }
 
 

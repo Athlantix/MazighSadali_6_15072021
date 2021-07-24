@@ -10,6 +10,7 @@ router.get("/",auth, publicationCtrl.AllPublication);
 router.post("/",auth, publicationCtrl.CreatePublication);
 router.get("/:id",auth, publicationCtrl.OnePublication);
 router.delete("/:id",auth, publicationCtrl.DeletePublication);
+router.put("/:id",auth,publicationCtrl.ModifyPublication);
 
 
 module.exports = router;
