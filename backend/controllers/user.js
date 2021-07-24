@@ -93,3 +93,16 @@ exports.login=(req,res,next)=>{
     })
  
   }
+
+  exports.getCurrentUser=(req,res,next)=>{
+    console.log("ok");
+    const token = req.headers.authorization.split(' ')[1];
+    console.log(token)
+    const decodedToken = jwt.verify(token,process.env.JWT_SECRET);
+    const userId = decodedToken.userId;
+    console.log("le user id: "+ userId)
+
+    if(res){res.status(200).json({userId:userId})}
+    else { res.status(400).json({ message: 'Aucuns utilisateurs ne correspond'})}
+  }
+  

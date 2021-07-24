@@ -8,6 +8,8 @@
     <div class="commentaire" v-for="commentaire in commentaire" :key="commentaire[i]">
         <h2>{{commentaire.prenom}} {{commentaire.nom}}</h2>
          <p>{{commentaire.message}}</p>
+         <button v-if="parseInt(id_user)===parseInt(commentaire.user_id)"  v-on:click="deleteCommentaire(commentaire.id)"> Supprimer</button>
+       <span v-else ></span>
     </div>
     <div class="creaPublication">
         <input type="text" v-model="commentaireUser"/>
@@ -42,10 +44,13 @@ export default {
       }
   },
   async created(){
-  
+     axios.get("http://localhost:3000/api/user/currentUser/get")
+      .then(response=>{
+          this.id_user=response.data.userId;
+         }).catch();
     axios.get("http://localhost:3000/api/publication/"+this.id_publication)
       .then(response=>{ 
-        this.id_user=response.data.publication[0].user_id;
+     
 
            if(localStorage.getItem('token')!==null){
                for(let i=0;i<response.data.publication.length;i++){
@@ -63,17 +68,25 @@ export default {
   },
     methods:{
           createCommentairePost(){
-              let userId=localStorage.getItem("userId")
+            
+              let userId=this.id_user
               console.log(userId)
             axios.post('http://localhost:3000/api/publication/'+this.id_publication,
             {id_user:userId,id_publication:this.id_publication, message:this.commentaireUser})
             .then(response =>{
                 console.log(response);
                console.log(this.id_publication);
-               
                this.$router.go()
+               
             })
-        }
+        },
+                deleteCommentaire(param){
+           axios.delete('http://localhost:3000/api/publication/commentaire/'+param)
+           .then(response=>{ console.log(response); 
+             console.log("supprimé"+response)
+          this.$router.go()
+           });       
+        },
   },
 
 }

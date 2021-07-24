@@ -1,6 +1,6 @@
 <template>
 <div>
-
+  <a v-on:click="deleteStorage()">Déconnexion</a>
   <div class="creaPublication">
     <p>Poster une publication</p>
     <input type="text" v-model="messageUser"/>
@@ -13,10 +13,10 @@
       <p>{{post.prenom}} {{post.nom}}</p>
       <h2>{{post.texte}}</h2>
       <p>{{post.date}}</p>
-      <button v-if="parseInt(idUser)===parseInt(post.user_id)"  v-on:click="deletePublication(post.id)"> Supprimer</button>
-       <span v-else ></span>
    </div>
    </router-link>
+         <button v-if="parseInt(idUser)===parseInt(post.user_id)"  v-on:click="deletePublication(post.id)"> Supprimer</button>
+       <span v-else ></span>
 </div>
 </div>
 
@@ -28,7 +28,7 @@
 
 const axios = require('axios');
 const token=localStorage.getItem("token");
-
+//alert("haut"+ token)
 axios.interceptors.request.use(
   config=>{
     config.headers.authorization=`Bearer ${token}`;
@@ -42,7 +42,7 @@ export default {
     data(){
     return {
       userVerif:'',
-      idUser:localStorage.getItem('userId'),
+      idUser:null,
       messageUser:'',
       imageUser:null,
       id_publication:0,
@@ -51,19 +51,27 @@ export default {
   },
 
     async created(){
-       axios.get("http://localhost:3000/api/publication")
+
+                axios.get("http://localhost:3000/api/user/currentUser/get")
+      .then(response=>{
+          this.idUser=response.data.userId;
+          //alert(response.data.userId)
+         }).catch();
+
+      //  alert(localStorage.getItem('token'))
+              axios.get("http://localhost:3000/api/publication")
       .then(response=>{
        
          if(localStorage.getItem('token')!==null){
         for(let i=0;i<response.data.length;i++){
         this.post.push(response.data[i]);console.log(response.data[i])
-        }
+           }
          }
-         console.log(response.data)
-
+         console.log(response.data);
+      
 
       }).catch();
-    
+     
   },
  methods:{
           createPost(){
@@ -71,15 +79,23 @@ export default {
             {id:this.idUser, message:this.messageUser,image:this.imageUser})
             .then(response =>{
                console.log("Ajouté"+response);
-               document.location.reload();
+               this.$router.go()
             })
         },
 
         deletePublication(param){
            axios.delete('http://localhost:3000/api/publication/'+param)
-           .then(response=>{ console.log(response); });
-              this.$router.go()
-        }
+           .then(response=>{ console.log(response); 
+             console.log("supprimé"+response)
+          this.$router.go()
+           });       
+        },
+         
+      deleteStorage () {
+        localStorage.clear();
+        this.idUser=null;
+        document.location.href = "/";
+      }
   },
 
 }

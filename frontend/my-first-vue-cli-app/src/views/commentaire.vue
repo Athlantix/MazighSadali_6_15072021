@@ -19,7 +19,8 @@ export default {
   },
     methods: {
       deleteStorage () {
-        localStorage.removeItem('token');localStorage.removeItem('userId');localStorage.removeItem('infoUser');
+          localStorage.clear();
+          document.location.href = "/";
       }
     }
 }

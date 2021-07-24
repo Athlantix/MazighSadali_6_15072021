@@ -8,5 +8,6 @@ router.get('/:id',auth, usersCtrl.OneUser);
 router.delete('/:id',auth, usersCtrl.DeleteUser);
 router.post('/signup', usersCtrl.signup);
 router.post('/login', usersCtrl.login);
+router.get('/currentUser/get',auth, usersCtrl.getCurrentUser);
 
 module.exports = router;
