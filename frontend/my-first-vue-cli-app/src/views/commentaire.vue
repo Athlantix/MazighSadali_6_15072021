@@ -1,8 +1,6 @@
 <template>
   <div id='App'>
- <router-link to="/accueil">Acceuil</router-link>
-<router-link to="/profil">Profil</router-link>
-  <router-link v-on:click="deleteStorage()" to="/">Déconnexion</router-link>
+
   <OnePublicationUser />
        
     </div>

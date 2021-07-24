@@ -1,10 +1,22 @@
 <template>
 <div>
+
+  <div class="menu">
+    <router-link to="/accueil" class="routerLink">Acceuil</router-link>
+    <router-link to="/profil" class="routerLink">Profil</router-link>
+    <router-link v-on:click="deleteStorage()" to="/"  class="routerLink">Déconnexion</router-link>
+  </div>
     <div class="publication" v-for="onePost in onePost" :key="onePost[i]">
         <h2>{{onePost.prenom}} {{onePost.nom}}</h2>
         <p>{{onePost.texte}}</p>
         <p>{{onePost.date}}</p>
         <img :src="onePost.image"  class="image"/>
+    </div>
+    <div class="centreCom">
+      <div class="creaPublication">
+          <input type="text" v-model="commentaireUser"/>
+          <button v-on:click="createCommentairePost()">Poster</button>
+      </div>
     </div>
     <div class="commentaire" v-for="commentaire in commentaire" :key="commentaire[i]">
         <h2>{{commentaire.prenom}} {{commentaire.nom}}</h2>
@@ -12,10 +24,7 @@
          <button v-if="parseInt(id_user)===parseInt(commentaire.user_id) || userAcces===1"  v-on:click="deleteCommentaire(commentaire.id)"> Supprimer</button>
        <span v-else ></span>
     </div>
-    <div class="creaPublication">
-        <input type="text" v-model="commentaireUser"/>
-        <button v-on:click="createCommentairePost()">Poster</button>
-    </div>
+   
 </div>
 
 </template>
@@ -103,6 +112,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+input,button{
+  margin:0 auto;
+}
 .publication{
   border:1px solid black;
   text-align:center;
@@ -117,4 +129,53 @@ export default {
 .image{
   width:40%;
 }
+
+.menu{
+  padding:10px;
+  color:white;
+  display:flex;
+ background-color: black;
+  justify-content: center;
+  justify-content:flex-end;
+}
+
+.routerLink{
+  text-decoration: none;
+  margin-right:1%;
+  color:white;
+}
+.publication{
+  background-color: rgb(224, 241, 255);
+  text-align:center;
+  width:70%;
+  margin:0 auto;
+  margin-top:25px;
+  padding:10px;
+  border:none;
+}
+.commentaire{
+  background-color: rgb(255, 229, 213);
+  text-align:center;
+  width:70%;
+  margin:0 auto;
+  margin-top:25px;
+  padding:10px;
+  border:none;
+}
+.centreCom{
+  width:100%;
+}
+.creaPublication{
+    width:200px;
+     margin:0 auto;
+      margin-top:25px;
+}
+
+button{
+  padding:5px;
+  background-color: rgb(59, 91, 161);
+  border:none;
+  color:white;
+}
+
 </style>

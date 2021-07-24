@@ -6,7 +6,7 @@
     <a v-on:click="deleteStorage()">Déconnexion</a>
  
      </div>
-
+  <div class="publication">
    <b>Nom: <span>{{nomUser}}</span></b><br>
    <b>Prénom: <span>{{prenomUser}}</span></b> <br>
     <b>Poste: <span>{{posteUser}}</span></b> <br>
@@ -18,7 +18,7 @@
        <p>Prénom:<input type="texte" v-model="prenomUser"/></p>
     <p>Poste: <input type="texte" v-model="posteUser"/></p>
     <button v-on:click="modifyUser()">Envoyer</button>
-   
+   </div>
   
 
      </div>
@@ -127,4 +127,12 @@ button{
   color:white;
 }
 
+.publication{
+  background-color: rgb(224, 241, 255);
+  text-align:center;
+  width:70%;
+  margin:0 auto;
+  margin-top:25px;
+  padding:10px;
+}
 </style>
