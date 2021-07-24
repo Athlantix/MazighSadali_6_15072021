@@ -1,7 +1,7 @@
 <template>
   <div class='profil'>
  <router-link to="/accueil">Acceuil</router-link>
-  <router-link v-on:click="deleteStorage()" to="/">Déconnexion</router-link>
+  
   <profil/>
   </div>
 </template>
@@ -17,10 +17,6 @@ export default {
     profil
    
   },
-      methods: {
-      deleteStorage () {
-        localStorage.removeItem('token');localStorage.removeItem('userId');localStorage.removeItem('infoUser');
-      }
-    }
+      
 }
 </script>

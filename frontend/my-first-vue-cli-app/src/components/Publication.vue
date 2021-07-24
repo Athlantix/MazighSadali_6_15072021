@@ -1,6 +1,7 @@
 <template>
 <div>
   <a v-on:click="deleteStorage()">Déconnexion</a>
+  <h1>Bienvenue: {{prenom}} {{nom}}</h1>
   <div class="creaPublication">
     <p>Poster une publication</p>
     <input type="text" v-model="messageUser"/>
@@ -15,7 +16,7 @@
       <p>{{post.date}}</p>
    </div>
    </router-link>
-         <button v-if="parseInt(idUser)===parseInt(post.user_id)"  v-on:click="deletePublication(post.id)"> Supprimer</button>
+         <button v-if="parseInt(idUser)===parseInt(post.user_id) || userAcces===1 "  v-on:click="deletePublication(post.id)"> Supprimer</button>
        <span v-else ></span>
         <button v-if="parseInt(idUser)===parseInt(post.user_id)" v-on:click="showInput()"> Modifier</button>
       <div class="modif" v-if="show==true && parseInt(idUser)===parseInt(post.user_id)">
@@ -48,8 +49,10 @@ export default {
   name: 'publicationUser',
     data(){
     return {
+      prenom:'',
+      nom:'',
       show:null,
-      userVerif:'',
+      userAcces:'',
       idUser:null,
       messageUser:'',
       imageUser:null,
@@ -63,6 +66,9 @@ export default {
                 axios.get("http://localhost:3000/api/user/currentUser/get")
       .then(response=>{
           this.idUser=response.data.userId;
+          this.userAcces=response.data.userAcces;
+          this.prenom=response.data.dataPrenom
+          this.nom=response.data.dataNom
           //alert(response.data.userId)
          }).catch();
 

@@ -8,7 +8,7 @@
     <div class="commentaire" v-for="commentaire in commentaire" :key="commentaire[i]">
         <h2>{{commentaire.prenom}} {{commentaire.nom}}</h2>
          <p>{{commentaire.message}}</p>
-         <button v-if="parseInt(id_user)===parseInt(commentaire.user_id)"  v-on:click="deleteCommentaire(commentaire.id)"> Supprimer</button>
+         <button v-if="parseInt(id_user)===parseInt(commentaire.user_id) || userAcces===1"  v-on:click="deleteCommentaire(commentaire.id)"> Supprimer</button>
        <span v-else ></span>
     </div>
     <div class="creaPublication">
@@ -36,6 +36,7 @@ export default {
   name: 'OnePublicationUser',
     data(){
     return {
+      userAcces:'',
         commentaireUser:'',
         commentaire:[],
       onePost:[],
@@ -47,6 +48,7 @@ export default {
      axios.get("http://localhost:3000/api/user/currentUser/get")
       .then(response=>{
           this.id_user=response.data.userId;
+          this.userAcces=response.data.userAcces;
          }).catch();
     axios.get("http://localhost:3000/api/publication/"+this.id_publication)
       .then(response=>{ 

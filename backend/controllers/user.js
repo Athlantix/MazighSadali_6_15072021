@@ -100,9 +100,29 @@ exports.login=(req,res,next)=>{
     console.log(token)
     const decodedToken = jwt.verify(token,process.env.JWT_SECRET);
     const userId = decodedToken.userId;
-    console.log("le user id: "+ userId)
+    console.log("le user id: "+ userId);
 
-    if(res){res.status(200).json({userId:userId})}
-    else { res.status(400).json({ message: 'Aucuns utilisateurs ne correspond'})}
+    let sql="SELECT * FROM user WHERE id=?;";
+    let insert=[userId];
+    con.query(sql,insert,(err,result)=>{
+      if(err)  res.status(400).json({ message: 'faux'}) 
+      else{
+        let userAcces=result[0].acces;
+        let dataNom=result[0].nom;
+        let dataPrenom=result[0].prenom;
+        let dataPoste=result[0].poste;
+        
+        res.status(200).json({userId:userId,userAcces,dataNom,dataPrenom,dataPoste}) }
+
+    })
   }
   
+  exports.ModifyUser=(req,res,next)=>{
+    let sql=
+"UPDATE user SET nom= ? , prenom= ? ,poste=? where id= ?;";
+let insert=[req.body.nom, req.body.prenom, req.body.poste, req.body.id]
+    con.query(sql,insert,(err,result)=>{
+      if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à modifier un utilisateur ' })}
+      else{  res.status(200).json( result)}
+    })
+  }
