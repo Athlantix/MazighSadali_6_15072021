@@ -5,8 +5,6 @@ require('dotenv').config();
 
 exports.CreatePublication=(req,res,next)=>{
   let sql= "INSERT INTO publication VALUES(NULL,?,NOW(),?,?);";
-
-  
   let image='';
   if(req.file===undefined){
     image='';
@@ -15,10 +13,9 @@ exports.CreatePublication=(req,res,next)=>{
     console.log("OH OUIIII")
     image= `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
   }
- 
+    console.log("haaaaaa IMGG: "+ image)
   let insert=[ req.body.id, req.body.message, image ];
   console.log("voila : "+ req.files)
-
   con.query(sql,insert,(err,result)=>{
     if(err) {res.status(400).json({ message: 'Il y a une erreur dans le poste' })}
     else{  res.status(200).json({ message: 'Poste ajouté' });}
@@ -58,10 +55,21 @@ exports.AllPublication=(req,res,next)=>{
   }
 
   exports.ModifyPublication=(req,res,next)=>{
-    let sql=
-"UPDATE publication SET texte= ? , image= ? where id= ?;";
-let image= `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-let insert=[req.body.texte, image, req.body.id]
+   
+let image='';
+if(req.file===undefined){
+  image='';
+}
+else { 
+  console.log("OH OUIIII")
+  image= `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+}
+
+let sql=
+"UPDATE publication SET texte= ? , image= ? where user_id= ?;";
+
+let insert=[req.body.message, image, req.body.id]
+console.log(req.body.id+" =id HAAAAAAAAA msg= "+req.body.message+" haaaaa img="+image)
     con.query(sql,insert,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à modifier la publication ' })}
       else{  res.status(200).json( result)}

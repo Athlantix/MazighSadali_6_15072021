@@ -4,6 +4,7 @@
         <h2>{{onePost.prenom}} {{onePost.nom}}</h2>
         <p>{{onePost.texte}}</p>
         <p>{{onePost.date}}</p>
+        <img :src="onePost.image"  class="image"/>
     </div>
     <div class="commentaire" v-for="commentaire in commentaire" :key="commentaire[i]">
         <h2>{{commentaire.prenom}} {{commentaire.nom}}</h2>
@@ -112,5 +113,8 @@ export default {
     border:1px solid black;
      width:50%;
   margin:10px;
+}
+.image{
+  width:40%;
 }
 </style>

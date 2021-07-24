@@ -9,10 +9,7 @@
   <form @submit.prevent="createPost()" enctype="multipart/form-data">
     <input type="text" v-model="messageUser"/>
   <label for="file" class="label">upload</label>
-  <input type="file"
-  accept="image/*"
-    ref="file"
-   @change="uploadImage()"/>
+  <input type="file" accept="image/*" ref="file" @change="uploadImage()"/>
    <button>Poster</button>
   </form>
 
@@ -28,18 +25,18 @@
       <p>{{post.date}}</p>
    </div>
    </router-link>
+
          <button v-if="parseInt(idUser)===parseInt(post.user_id) || userAcces===1 "  v-on:click="deletePublication(post.id)"> Supprimer</button>
        <span v-else ></span>
-        <button v-if="parseInt(idUser)===parseInt(post.user_id)" v-on:click="showInput()"> Modifier</button>
-      <div class="modif" v-if="show==true && parseInt(idUser)===parseInt(post.user_id)">
+       
+      <button v-if="parseInt(idUser)===parseInt(post.user_id)" v-on:click="showInput()"> Modifier</button>
+        <div class="modif" v-if="show==true && parseInt(idUser)===parseInt(post.user_id)">
+
           <form @submit.prevent="modifyPublication(post.id)" enctype="multipart/form-data">
-         <input type="text" v-model="messageUser"/>
-         <label for="file" class="label">upload</label>
-  <input type="file"
-  accept="image/*"
-    ref="file"
-   @change="uploadImage()"/>
-        <button >Envoyer</button>
+            <input type="text" v-model="messageUser"/>
+            <label for="file" class="label">upload</label>
+            <input type="file" accept="image/*" ref="file" @change="uploadImage()"/>
+            <button >Envoyer</button>
         </form>
        
         </div>
@@ -151,17 +148,33 @@ export default {
            });       
         },
         modifyPublication(param){
-           const formData=new FormData();
-            formData.append('image',this.file)
 
-            formData.append('id',JSON.stringify(this.idUser));
-            formData.append('texte',JSON.stringify(this.messageUser));
+              if(this.file===''){
+             alert("pas définie")
+             this.imageUser="";
+               axios.put('http://localhost:3000/api/publication/'+param,{id:this.idUser,message:this.messageUser,image:''})
+            .then(response =>{
+               console.log("Ajouté"+response);
+               this.$router.go()
+            })
+           }
+           else{
+             const formData=new FormData();
+            formData.append('image',this.file);
+            formData.append('id',this.idUser);
+
            axios.put('http://localhost:3000/api/publication/'+param,
             formData)
            .then(response=>{ console.log(response); 
              console.log("supprimé"+response)
-          this.$router.go()
+            this.$router.go()
            }); 
+            
+           }
+          //-------------------
+
+
+
         },
          
       deleteStorage () {
