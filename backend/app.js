@@ -8,6 +8,11 @@ const mysql = require('mysql');
 const helmet = require("helmet");
 require('dotenv').config();   
 
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+
 app.use(helmet());
 app.use(bodyParser.json());
 app.use('/images', express.static(path.join(__dirname, 'images')));
@@ -25,5 +30,5 @@ app.use((req, res, next) => {
 
 app.use('/api/user', usersRoutes);
 app.use('/api/publication',publicationRoutes);
-
+app.use('/images', express.static(path.join(__dirname, 'images')));
 module.exports = app;   

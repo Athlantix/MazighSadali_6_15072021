@@ -4,14 +4,26 @@
   <h1>Bienvenue: {{prenom}} {{nom}}</h1>
   <div class="creaPublication">
     <p>Poster une publication</p>
+  
+
+  <form @submit.prevent="createPost()" enctype="multipart/form-data">
     <input type="text" v-model="messageUser"/>
-    <button v-on:click="createPost()">Poster</button>
+  <label for="file" class="label">upload</label>
+  <input type="file"
+  accept="image/*"
+    ref="file"
+   @change="uploadImage()"/>
+   <button>Poster</button>
+  </form>
+
+   
   </div>
 <div class="publication"  v-for="post in post" :key="post[i]" >
     <router-link v-bind:to='"/publication/"+post.id' >
     <div>
     
       <p>{{post.prenom}} {{post.nom}}</p>
+      <img :src="post.image" class="image"/>
       <h2>{{post.texte}}</h2>
       <p>{{post.date}}</p>
    </div>
@@ -20,8 +32,15 @@
        <span v-else ></span>
         <button v-if="parseInt(idUser)===parseInt(post.user_id)" v-on:click="showInput()"> Modifier</button>
       <div class="modif" v-if="show==true && parseInt(idUser)===parseInt(post.user_id)">
+          <form @submit.prevent="modifyPublication(post.id)" enctype="multipart/form-data">
          <input type="text" v-model="messageUser"/>
-        <button   v-on:click="modifyPublication(post.id)">Envoyer</button>
+         <label for="file" class="label">upload</label>
+  <input type="file"
+  accept="image/*"
+    ref="file"
+   @change="uploadImage()"/>
+        <button >Envoyer</button>
+        </form>
        
         </div>
         <span v-else ></span>
@@ -55,9 +74,9 @@ export default {
       userAcces:'',
       idUser:null,
       messageUser:'',
-      imageUser:null,
+      file:'',
       id_publication:0,
-      post:[]
+      post:[],
       }
   },
 
@@ -88,14 +107,41 @@ export default {
      
   },
  methods:{
+
+          uploadImage(){
+            this.file=this.$refs.file.files[0];
+            console.log(this.file)
+                  },
+
           createPost(){
-            axios.post('http://localhost:3000/api/publication',
-            {id:this.idUser, message:this.messageUser,image:this.imageUser})
+
+           
+           if(this.file===''){
+             alert("pas définie")
+             this.imageUser="";
+               axios.post('http://localhost:3000/api/publication',{id:this.idUser,message:this.messageUser,image:this.imageUser})
             .then(response =>{
                console.log("Ajouté"+response);
                this.$router.go()
             })
+           }else{
+              const formData=new FormData();
+            formData.append('image',this.file)
+
+            formData.append('id',this.idUser);
+            formData.append('texte',this.messageUser);
+           console.log(this.file)
+                axios.post('http://localhost:3000/api/publication',formData)
+            .then(response =>{
+               console.log("Ajouté"+response);
+               this.$router.go()
+            })
+           }
+           
+         
         },
+
+       
 
         deletePublication(param){
            axios.delete('http://localhost:3000/api/publication/'+param)
@@ -105,8 +151,13 @@ export default {
            });       
         },
         modifyPublication(param){
+           const formData=new FormData();
+            formData.append('image',this.file)
+
+            formData.append('id',JSON.stringify(this.idUser));
+            formData.append('texte',JSON.stringify(this.messageUser));
            axios.put('http://localhost:3000/api/publication/'+param,
-            {id:param, texte:this.messageUser,image:this.imageUser})
+            formData)
            .then(response=>{ console.log(response); 
              console.log("supprimé"+response)
           this.$router.go()
@@ -133,5 +184,8 @@ export default {
   text-align:center;
   width:50%;
   margin:10px;
+}
+.image{
+  width:5%;
 }
 </style>
