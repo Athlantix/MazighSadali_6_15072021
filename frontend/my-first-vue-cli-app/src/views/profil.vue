@@ -1,6 +1,6 @@
 <template>
   <div class='profil'>
- <router-link to="/accueil">Acceuil</router-link>
+
   
   <profil/>
   </div>

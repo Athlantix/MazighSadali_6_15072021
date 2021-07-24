@@ -1,12 +1,16 @@
 <template>
  
  <div class="login">
-  <a v-on:click="deleteStorage()">Déconnexion</a>
-     
-   <p>Nom: {{nomUser}}</p>
-   <p>Prénom: {{prenomUser}}</p>
-    <p>Poste: {{posteUser}}</p>
-    <p>Acces: {{accesUser}}</p>
+     <div class="menu">
+    <router-link to="/accueil" class="routerLink">Acceuil</router-link>
+    <a v-on:click="deleteStorage()">Déconnexion</a>
+ 
+     </div>
+
+   <b>Nom: <span>{{nomUser}}</span></b><br>
+   <b>Prénom: <span>{{prenomUser}}</span></b> <br>
+    <b>Poste: <span>{{posteUser}}</span></b> <br>
+    <b>Acces: <span>{{accesUser}}</span></b><br>
 
      <button v-on:click="showInput()"> Modifier</button>
      <div class="modif_user" v-if="show===true">
@@ -89,3 +93,38 @@ export default {
 }
 
 </script>
+
+<style scoped lang="scss">
+.menu{
+  padding:10px;
+  color:white;
+  display:flex;
+ background-color: black;
+  justify-content: center;
+  justify-content:flex-end;
+}
+
+.routerLink{
+  text-decoration: none;
+  margin-right:1%;
+  color:white;
+}
+span{
+  font-weight: lighter;
+}
+.login{
+  text-align: center;
+}
+br{
+  margin:20px;
+}
+
+button{
+  padding:5px;
+  background-color: rgb(59, 91, 161);
+  border:none;
+  margin:15px;
+  color:white;
+}
+
+</style>

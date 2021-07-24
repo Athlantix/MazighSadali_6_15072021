@@ -23,7 +23,7 @@
       
         <p>{{post.prenom}} {{post.nom}}</p>
         <img :src="post.image" class="image"/>
-        <h2>{{post.texte}}</h2>
+        <h2 v-if="post.texte !==null">{{post.texte}}</h2> <br>
         <i>{{post.date}}</i>
     </div>
     </router-link>
@@ -34,7 +34,7 @@
           <div class="modif" v-if="show==true && parseInt(idUser)===parseInt(post.user_id)">
 
             <form @submit.prevent="modifyPublication(post.id)" enctype="multipart/form-data">
-              <input type="text" v-model="messageUser" v-if="post.texte !==null"/>
+              <input type="text" v-model="messageUserModif" v-if="post.texte !==null"/>
               <label for="file" class="label" v-if="!file===''">upload</label>
               <input type="file" accept="image/*" ref="file" @change="uploadImageModif()"  v-if="post.image !==''"/>
               <button >Envoyer</button>
@@ -73,6 +73,7 @@ export default {
       userAcces:'',
       idUser:null,
       messageUser:'',
+      messageUserModif:'',
       file:'',
       fileModif:'',
       id_publication:0,
@@ -160,7 +161,7 @@ export default {
 
               if(this.fileModif==='' ){
              this.imageUser="";
-               axios.put('http://localhost:3000/api/publication/'+param,{id:param,message:this.messageUser,image:''})
+               axios.put('http://localhost:3000/api/publication/'+param,{id:param,message:this.messageUserModif,image:''})
             .then(response =>{
                console.log("Ajouté"+response);
                this.$router.go()
@@ -221,9 +222,9 @@ p{
 .publication{
   background-color: rgb(224, 241, 255);
   text-align:center;
-  width:97%;
+  width:70%;
   margin:0 auto;
-  margin-top:15px;
+  margin-top:25px;
   padding:10px;
 }
 .image{
