@@ -34,9 +34,9 @@
           <div class="modif" v-if="show==true && parseInt(idUser)===parseInt(post.user_id)">
 
             <form @submit.prevent="modifyPublication(post.id)" enctype="multipart/form-data">
-              <input type="text" v-model="messageUser"/>
-              <label for="file" class="label">upload</label>
-              <input type="file" accept="image/*" ref="file" @change="uploadImageModif()"/>
+              <input type="text" v-model="messageUser" v-if="post.texte !==null"/>
+              <label for="file" class="label" v-if="!file===''">upload</label>
+              <input type="file" accept="image/*" ref="file" @change="uploadImageModif()"  v-if="post.image !==''"/>
               <button >Envoyer</button>
           </form>
         
@@ -158,8 +158,7 @@ export default {
         },
         modifyPublication(param){
 
-              if(this.fileModif===''){
-             alert("pas définie")
+              if(this.fileModif==='' ){
              this.imageUser="";
                axios.put('http://localhost:3000/api/publication/'+param,{id:param,message:this.messageUser,image:''})
             .then(response =>{
