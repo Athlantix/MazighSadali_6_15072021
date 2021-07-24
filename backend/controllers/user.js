@@ -30,8 +30,8 @@ exports.OneUser=(req,res,next)=>{
     let sql="DELETE FROM user WHERE id=?;";
     let insert=[req.params.id];
     con.query(sql,insert,(err,result)=>{
-      if(err) throw err;
-      res.send(result);
+      if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à supprimer un utilisateur ' })}
+      else{  res.status(200).json( result)}
     })
   }
   

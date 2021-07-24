@@ -12,3 +12,4 @@ router.get('/currentUser/get',auth, usersCtrl.getCurrentUser);
 router.put('/',auth,usersCtrl.ModifyUser)
 
 module.exports = router;
+

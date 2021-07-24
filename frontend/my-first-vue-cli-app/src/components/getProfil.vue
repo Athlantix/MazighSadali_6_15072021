@@ -14,9 +14,11 @@
        <p>Prénom:<input type="texte" v-model="prenomUser"/></p>
     <p>Poste: <input type="texte" v-model="posteUser"/></p>
     <button v-on:click="modifyUser()">Envoyer</button>
+   
   
 
      </div>
+      <button v-on:click="deleteUser(idUser)">Supprimer compte</button>
   </div>
 </template>
 
@@ -72,6 +74,14 @@ export default {
         localStorage.clear();
         this.idUser=null;
         document.location.href = "/";
+      },
+
+      deleteUser(param){
+           axios.delete('http://localhost:3000/api/user/'+param)
+           .then(response=>{ console.log(response); 
+             console.log("supprimé"+response)
+            document.location.href = "/";
+           }); 
       }
   }
   
