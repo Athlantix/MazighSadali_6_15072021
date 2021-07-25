@@ -204,6 +204,7 @@ p {
   width: 300px;
   margin: 0 auto;
   margin-top: 25px;
+  padding-left:50px;
 }
 
 button {

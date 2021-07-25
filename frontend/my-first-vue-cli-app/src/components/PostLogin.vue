@@ -70,6 +70,7 @@ export default {
 }
 .login-dispo {
   margin-top:0px;
+  padding-top:20px;
   text-align: center;
   border-radius: 15px;
   box-shadow: 2px 3px 5px rgb(196, 196, 196);

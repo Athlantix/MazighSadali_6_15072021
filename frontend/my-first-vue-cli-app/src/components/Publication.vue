@@ -39,7 +39,7 @@
             <h2 v-if="post.texte !== null">{{ post.texte }}</h2>
             <br />
             <img :src="post.image" class="image" /><br />
-            <i>{{ post.date }}</i>
+            <i>{{ post.date.split("T")[0] }}</i>
           </div>
         </router-link>
 
