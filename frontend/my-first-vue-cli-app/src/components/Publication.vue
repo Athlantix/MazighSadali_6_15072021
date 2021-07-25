@@ -40,7 +40,7 @@
             <form @submit.prevent="modifyPublication(post.id)" enctype="multipart/form-data">
               <input type="text" v-model="messageUserModif" />
               <label for="file" class="label" ></label>
-              <input type="file" accept="image/*" ref="file" @change="uploadImageModif()" />
+               <input type="file" @change="previewFiles" multiple tabindex="-1">
               <button >Envoyer</button>
           </form>
         
@@ -118,11 +118,14 @@ export default {
             console.log(this.file)
                   },
 
-         uploadImageModif(){
-             this.fileModif=this.$refs.file.files[0];
-            console.log(this.file)
+           previewFiles(event) {
+              this.fileModif=event.target.files[0]
+      // process your files, read as DataUrl or upload...
+      console.log(event.target.files[0]);
 
-         },
+    
+
+   },
 
           createPost(){
 
@@ -162,8 +165,7 @@ export default {
            });       
         },
         modifyPublication(param){
-
-              if(this.fileModif==='' ){
+              if(this.fileModif===''){
              this.imageUser="";
                axios.put('http://localhost:3000/api/publication/'+param,{id:param,texte:this.messageUserModif,image:''})
             .then(response =>{
@@ -172,6 +174,7 @@ export default {
             })
            }
            else{
+             console.log(this.fileModif)
              const formData=new FormData();
             formData.append('image',this.fileModif);
             formData.append('id',param);
