@@ -69,8 +69,8 @@ else {
 let sql=
 "UPDATE publication SET texte= ? , image = ? WHERE id= ?  ;";
 
-let insert=[req.body.message, image,req.body.id]
-console.log(req.body.id+" =id HAAAAAAAAA msg= "+req.body.message+" haaaaa img="+image)
+let insert=[req.body.texte, image,req.body.id]
+
     con.query(sql,insert,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à modifier la publication ' })}
       else{  res.status(200).json( result)}

@@ -19,6 +19,12 @@ Lancez:
  (OU) 
  yarn global add @vue/cli
 
+
+installez AXIOS 
+npm install axios 
+(ou)
+yarn add axios
+
 -Lancez ensuite npm i 
 -Pour lancer le backend: cd backend --> npm run start
 -Lancez le frontend : cd frontend --> cd my-first-vue-cli-app -->npm run serve

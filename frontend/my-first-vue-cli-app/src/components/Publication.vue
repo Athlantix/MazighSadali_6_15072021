@@ -25,8 +25,9 @@
       <div class="router">
       
         <p>{{post.prenom}} {{post.nom}}</p>
-        <img :src="post.image" class="image"/>
+        
         <h2 v-if="post.texte !==null">{{post.texte}}</h2> <br>
+        <img :src="post.image" class="image"/><br>
         <i>{{post.date}}</i>
     </div>
     </router-link>
@@ -37,9 +38,9 @@
           <div class="modif" v-if="show==true && parseInt(idUser)===parseInt(post.user_id)">
 
             <form @submit.prevent="modifyPublication(post.id)" enctype="multipart/form-data">
-              <input type="text" v-model="messageUserModif" v-if="post.texte !==null"/>
-              <label for="file" class="label" v-if="!file===''">upload</label>
-              <input type="file" accept="image/*" ref="file" @change="uploadImageModif()"  v-if="post.image !==''"/>
+              <input type="text" v-model="messageUserModif" />
+              <label for="file" class="label" ></label>
+              <input type="file" accept="image/*" ref="file" @change="uploadImageModif()" />
               <button >Envoyer</button>
           </form>
         
@@ -129,7 +130,7 @@ export default {
            if(this.file===''){
            
              this.imageUser="";
-               axios.post('http://localhost:3000/api/publication',{id:this.idUser,message:this.messageUser,image:this.imageUser})
+               axios.post('http://localhost:3000/api/publication',{id:this.idUser,message:this.messageUser,image:""})
             .then(response =>{
                console.log("Ajouté"+response);
                this.$router.go()
@@ -139,7 +140,7 @@ export default {
             formData.append('image',this.file)
 
             formData.append('id',this.idUser);
-            formData.append('texte',this.messageUser);
+            formData.append('message',this.messageUser);
            console.log(this.file)
                 axios.post('http://localhost:3000/api/publication',formData)
             .then(response =>{
@@ -164,7 +165,7 @@ export default {
 
               if(this.fileModif==='' ){
              this.imageUser="";
-               axios.put('http://localhost:3000/api/publication/'+param,{id:param,message:this.messageUserModif,image:''})
+               axios.put('http://localhost:3000/api/publication/'+param,{id:param,texte:this.messageUserModif,image:''})
             .then(response =>{
                console.log("Ajouté"+response);
                this.$router.go()
@@ -174,6 +175,7 @@ export default {
              const formData=new FormData();
             formData.append('image',this.fileModif);
             formData.append('id',param);
+            formData.append('texte',this.messageUserModif);
 
            axios.put('http://localhost:3000/api/publication/'+param,
             formData)

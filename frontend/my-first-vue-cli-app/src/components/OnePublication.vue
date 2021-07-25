@@ -9,8 +9,8 @@
     <div class="publication" v-for="onePost in onePost" :key="onePost[i]">
         <h2>{{onePost.prenom}} {{onePost.nom}}</h2>
         <p>{{onePost.texte}}</p>
-        <p>{{onePost.date}}</p>
-        <img :src="onePost.image"  class="image"/>
+        <img :src="onePost.image"  class="image"/><br>
+         <p>{{onePost.date}}</p>
     </div>
     <div class="centreCom">
       <div class="creaPublication">
@@ -99,6 +99,11 @@ export default {
           this.$router.go()
            });       
         },
+           deleteStorage () {
+        localStorage.clear();
+        this.idUser=null;
+        document.location.href = "/";
+      }
   },
 
 }
