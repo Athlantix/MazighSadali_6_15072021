@@ -14,8 +14,8 @@
     </div>
     <div class="centreCom">
       <div class="creaPublication">
-          <input type="text" v-model="commentaireUser"/>
-          <button v-on:click="createCommentairePost()">Poster</button>
+          <p>Ecrivez un commentaire<input type="text" v-model="commentaireUser"/><button v-on:click="createCommentairePost()">Poster</button></p>
+          
       </div>
     </div>
     <div class="commentaire" v-for="commentaire in commentaire" :key="commentaire[i]">
@@ -152,6 +152,8 @@ input,button{
   margin-top:25px;
   padding:10px;
   border:none;
+  border-radius: 15px;
+  box-shadow: 10px 5px 5px rgb(196, 196, 196);
 }
 .commentaire{
   background-color: rgb(255, 229, 213);
@@ -161,6 +163,8 @@ input,button{
   margin-top:25px;
   padding:10px;
   border:none;
+  border-radius: 15px;
+  box-shadow: 10px 5px 5px rgb(196, 196, 196);
 }
 .centreCom{
   width:100%;
@@ -176,6 +180,11 @@ button{
   background-color: rgb(59, 91, 161);
   border:none;
   color:white;
+}
+
+h2{
+  border-bottom: 1px solid black;
+  padding-bottom:20px;
 }
 
 </style>

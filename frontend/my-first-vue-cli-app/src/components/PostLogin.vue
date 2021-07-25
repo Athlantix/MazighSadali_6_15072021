@@ -4,9 +4,16 @@
     <router-link to="/" class="routerLink">Connexion</router-link> 
     <router-link to="/signin" class="routerLink">S'inscrire</router-link>
   </div>
-    <p>Email: <input type="texte"  v-model="email"/></p>
-    <p>Mot de passe <input type="texte" v-model="password"/></p>
+  <div class='logo'>
+    <img src="https://user.oc-static.com/upload/2019/09/04/15676009353158_image2.png"/>
+  </div>
+  <div class="login-dispo">
+    <p>Email</p>
+     <input type="texte"  v-model="email"/>
+    <p>Mot de passe </p>
+     <input type="password" v-model="password"/><br>
     <button v-on:click="checkForm"> Valider</button>
+    </div>
    </div>
 </template>
 
@@ -55,6 +62,11 @@ export default {
   justify-content: center;
   justify-content:flex-end;
 }
+.login-dispo{
+  text-align:center;
+
+}
+
 .routerLink{
   text-decoration: none;
   margin-right:1%;
@@ -67,6 +79,10 @@ button{
   border:none;
   margin:15px;
   color:white;
+}
+.logo{
+  text-align: center;
+  margin:40px;
 }
 
 </style>

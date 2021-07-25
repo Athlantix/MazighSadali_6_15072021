@@ -4,6 +4,9 @@
   <router-link to="/profil" class="routerLink">Profil</router-link>
   <a v-on:click="deleteStorage()">Déconnexion</a>
   </div>
+  <div class='logo'>
+    <img src="https://user.oc-static.com/upload/2019/09/04/15676009353158_image2.png"/>
+  </div>
 <div class="accueil">
   
   <h1>Bienvenue: {{prenom}} {{nom}}</h1>
@@ -220,12 +223,14 @@ p{
   text-decoration: none;
 }
 .publication{
-  background-color: rgb(224, 241, 255);
+  background-color: rgb(238, 247, 255);
   text-align:center;
   width:70%;
   margin:0 auto;
   margin-top:25px;
   padding:10px;
+  border-radius: 15px;
+  box-shadow: 10px 5px 5px rgb(196, 196, 196);
 }
 .image{
   width:30%;
@@ -247,6 +252,8 @@ p{
 .router p{
   font-size:20px;
   font-weight:bold;
+  border-bottom: 1px solid black;
+  padding-bottom:20px;
  
 }
 h2{
@@ -259,5 +266,9 @@ button{
   border:none;
   margin:15px;
   color:white;
+}
+.logo{
+  text-align: center;
+    margin:40px;
 }
 </style>

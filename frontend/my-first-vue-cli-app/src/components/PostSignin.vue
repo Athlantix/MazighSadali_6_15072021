@@ -5,12 +5,22 @@
     <router-link to="/" class="routerLink">Connexion</router-link> 
     <router-link to="/signin" class="routerLink" >S'inscrire</router-link>
   </div>
-   <p>Nom: <input type="texte" v-model="nomUser"/></p>
-   <p>Prénom: <input type="texte" v-model="prenomUser"/></p>
-    <p>Email: <input type="texte" v-model="emailUser"/></p>
-    <p>Mot de passe <input type="texte" v-model="passwordUser"/></p>
-    <p>Poste: <input type="texte" v-model="posteUser"/></p>
-    <button v-on:click="checkFormSign"><router-link to="/">Valider</router-link> </button>
+  <div class='logo'>
+    <img src="https://user.oc-static.com/upload/2019/09/04/15676009353158_image2.png"/>
+  </div>
+  <div class='singup-dispo'>
+   <p>Nom </p>
+   <input type="texte" v-model="nomUser"/>
+   <p>Prénom</p>
+    <input type="texte" v-model="prenomUser"/>
+    <p>Email</p>
+     <input type="texte" v-model="emailUser"/>
+    <p>Mot de passe </p>
+    <input type="password" v-model="passwordUser"/>
+    <p>Poste</p>
+    <input type="texte" v-model="posteUser"/><br>
+    <button v-on:click="checkFormSign"><router-link to="/" class="lien">Valider</router-link> </button>
+    </div>
   </div>
 </template>
 
@@ -47,9 +57,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-p{
-  margin-left:20%;
-}
+
 .info{
   padding:10px;
   color:white;
@@ -58,6 +66,10 @@ p{
   justify-content: center;
   justify-content:flex-end;
   margin-bottom:50px;
+  text-align: center;
+}
+
+.singup-dispo{
   text-align: center;
 }
 
@@ -72,7 +84,14 @@ button{
   background-color: rgb(59, 91, 161);
   border:none;
   margin:15px;
-  color:white;
- margin-left:20%;
+ 
+}
+.lien{
+  text-decoration: none;
+   color:white;
+}
+.logo{
+  text-align: center;
+    margin:40px;
 }
 </style>
