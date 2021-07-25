@@ -13,11 +13,11 @@
     <div class="creaPublication">
         
           <form @submit.prevent="createPost()" enctype="multipart/form-data">
-          <p>Poster une publication <input type="text" v-model="messageUser"/> </p>
-          
-          <label for="file" class="label">Ou une photo    </label>
+          <p>Poster une publication <input type="text" v-model="messageUser"/><label for="file" class="label">  </label>
           <input type="file" accept="image/*" ref="file" @change="uploadImage()"/><br>
-          <button>Poster</button>
+          <button>Poster</button> </p>
+          
+          
         </form>
     </div>
   <div class="publication"  v-for="post in post" :key="post[i]" >
@@ -228,11 +228,12 @@ p{
   text-decoration: none;
 }
 .publication{
-  background-color: rgb(238, 247, 255);
+  background-color: rgb(246, 251, 255);
   text-align:center;
   width:70%;
   margin:0 auto;
-  margin-top:25px;
+  margin-top:30px;
+  margin-bottom:30px;
   padding:10px;
   border-radius: 15px;
   box-shadow: 10px 5px 5px rgb(196, 196, 196);
@@ -263,7 +264,7 @@ p{
 }
 h2{
   padding:10px;
-  background-color: white;
+
 }
 button{
   padding:5px;

@@ -120,12 +120,7 @@ export default {
 input,button{
   margin:0 auto;
 }
-.publication{
-  border:1px solid black;
-  text-align:center;
-  width:50%;
-  margin:10px;
-}
+
 .commentaire{
     border:1px solid black;
      width:50%;
@@ -154,18 +149,25 @@ input,button{
   text-align:center;
   width:70%;
   margin:0 auto;
-  margin-top:25px;
+  margin-top:30px;
+  margin-bottom:30px;
   padding:10px;
   border:none;
   border-radius: 15px;
   box-shadow: 10px 5px 5px rgb(196, 196, 196);
+}
+p{
+    padding:10px;
+    font-weight: bold;
+    font-size:20px;
 }
 .commentaire{
   background-color: rgb(255, 229, 213);
   text-align:center;
   width:70%;
   margin:0 auto;
-  margin-top:25px;
+  margin-top:30px;
+  margin-bottom:30px;
   padding:10px;
   border:none;
   border-radius: 15px;
