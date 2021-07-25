@@ -22,9 +22,9 @@
 
     <button v-on:click="showInput()">Modifier</button>
     <div class="modif_user" v-if="show === true">
-      <p>Nom: <input type="texte" v-model="nomUser" /></p>
-      <p>Prénom:<input type="texte" v-model="prenomUser" /></p>
-      <p>Poste: <input type="texte" v-model="posteUser" /></p>
+      <p>Nom: <input type="texte" v-model="ModifnomUser" /></p>
+      <p>Prénom:<input type="texte" v-model="ModifprenomUser" /></p>
+      <p>Poste: <input type="texte" v-model="ModifposteUser" /></p>
       <button v-on:click="modifyUser()">Envoyer</button>
     </div>
     <button v-on:click="deleteUser(idUser)">Supprimer compte</button>
@@ -54,6 +54,10 @@ export default {
       posteUser: "",
       accesUser: "",
       idUser: "",
+
+      ModifnomUser: "",
+      ModifprenomUser: "",
+      ModifposteUser: "",
     };
   },
   async created() {
@@ -76,9 +80,9 @@ export default {
       axios
         .put("http://localhost:3000/api/user", {
           id: this.idUser,
-          nom: this.nomUser,
-          prenom: this.prenomUser,
-          poste: this.posteUser,
+          nom: this.ModifnomUser,
+          prenom: this.ModifprenomUser,
+          poste: this.ModifposteUser,
         })
         .then((response) => {
           console.log(response);
