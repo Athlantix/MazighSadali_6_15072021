@@ -127,7 +127,7 @@ export default {
 
            
            if(this.file===''){
-             alert("pas définie")
+           
              this.imageUser="";
                axios.post('http://localhost:3000/api/publication',{id:this.idUser,message:this.messageUser,image:this.imageUser})
             .then(response =>{
