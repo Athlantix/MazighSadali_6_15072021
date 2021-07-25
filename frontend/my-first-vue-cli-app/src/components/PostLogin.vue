@@ -6,7 +6,7 @@
     </div>
     <div class="logo">
       <img
-        src="https://user.oc-static.com/upload/2019/09/04/15676009353158_image2.png"
+        src="../assets/icon-above-font.png"
       />
     </div>
     <div class="login-dispo">
@@ -64,12 +64,17 @@ export default {
   padding: 10px;
   color: white;
   display: flex;
-  background-color: black;
+  background-color: #fd2d01;
   justify-content: center;
   justify-content: flex-end;
 }
 .login-dispo {
+  margin-top:0px;
   text-align: center;
+  border-radius: 15px;
+  box-shadow: 2px 3px 5px rgb(196, 196, 196);
+  width:50%;
+  margin: 0 auto;
 }
 
 .routerLink {
@@ -80,16 +85,16 @@ export default {
 
 button {
   padding: 5px;
-  background-color: rgb(59, 91, 161);
+  background-color: #fd2d01;
   border: none;
   margin: 15px;
   color: white;
 }
 .logo {
   text-align: center;
-  margin: 40px;
+  
 }
 .logo img{
-  width:40%;
+  width:30%;
 }
 </style>

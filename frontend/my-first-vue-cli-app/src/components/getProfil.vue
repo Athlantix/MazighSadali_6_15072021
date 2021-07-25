@@ -4,21 +4,17 @@
       <router-link to="/accueil" class="routerLink">Acceuil</router-link>
       <a v-on:click="deleteStorage()">Déconnexion</a>
     </div>
-
-    <b
-      >Nom: <span>{{ nomUser }}</span></b
-    ><br />
-    <b
-      >Prénom: <span>{{ prenomUser }}</span></b
-    >
+    <div class='profil'>
+    <b>Nom </b><br />
+    <span>{{ nomUser }}</span><br />
+    <b>Prénom </b> <br />
+    <span>{{ prenomUser }}</span>
     <br />
-    <b
-      >Poste: <span>{{ posteUser }}</span></b
-    >
+    <b>Poste </b><br />
+    <span>{{ posteUser }}</span>
     <br />
-    <b
-      >Acces: <span>{{ accesUser }}</span></b
-    ><br />
+    <b>Acces </b><br />
+    <span>{{ accesUser }}</span> <br/>
 
     <button v-on:click="showInput()">Modifier</button>
     <div class="modif_user" v-if="show === true">
@@ -28,6 +24,7 @@
       <button v-on:click="modifyUser()">Envoyer</button>
     </div>
     <button v-on:click="deleteUser(idUser)">Supprimer compte</button>
+  </div>
   </div>
 </template>
 
@@ -120,7 +117,7 @@ export default {
   padding: 10px;
   color: white;
   display: flex;
-  background-color: black;
+  background-color: #fd2d01;
   justify-content: center;
   justify-content: flex-end;
 }
@@ -132,19 +129,35 @@ export default {
 }
 span {
   font-weight: lighter;
+  margin-bottom: 19px;;
 }
 .login {
   text-align: center;
 }
 br {
-  margin: 20px;
+  margin: 5px;
+}
+
+b{
+  background-color:#fd2d01 ;
+  padding:5px;
+  border-radius:5px 5px 0px 0px;
+  color:white;
 }
 
 button {
   padding: 5px;
-  background-color: rgb(59, 91, 161);
-  border: none;
-  margin: 15px;
-  color: white;
+  background-color: white;
+  border: 1px solid #fd2d01;
+  color: #fd2d01;
+  margin:10px;
+}
+.profil{
+  
+  border-radius: 15px;
+  box-shadow: 2px 3px 5px rgb(196, 196, 196);
+  width:50%;
+  margin: 0 auto;
+  margin-top:50px;
 }
 </style>

@@ -159,7 +159,7 @@ button {
   padding: 10px;
   color: white;
   display: flex;
-  background-color: black;
+  background-color: #fd2d01;
   justify-content: center;
   justify-content: flex-end;
 }
@@ -170,16 +170,16 @@ button {
   color: white;
 }
 .publication {
-  background-color: rgb(246, 251, 255);
   text-align: center;
   width: 70%;
   margin: 0 auto;
   margin-top: 30px;
   margin-bottom: 30px;
-  padding: 10px;
+  padding-bottom: 15px;
+  border-radius: 15px;
   border: none;
   border-radius: 15px;
-  box-shadow: 10px 5px 5px rgb(196, 196, 196);
+  box-shadow: 2px 3px 5px rgb(196, 196, 196);
 }
 p {
   padding: 10px;
@@ -187,15 +187,15 @@ p {
   font-size: 20px;
 }
 .commentaire {
-  background-color: rgb(255, 229, 213);
   text-align: center;
   width: 70%;
   margin: 0 auto;
   margin-top: 30px;
+  padding-bottom:20px;
   margin-bottom: 30px;
   border: none;
   border-radius: 15px;
-  box-shadow: 10px 5px 5px rgb(196, 196, 196);
+  box-shadow: 2px 2px 5px rgb(196, 196, 196);
 }
 .centreCom {
   width: 100%;
@@ -208,14 +208,17 @@ p {
 
 button {
   padding: 5px;
-  background-color: rgb(59, 91, 161);
-  border: none;
-  color: white;
+  background-color: white;
+  border: 1px solid #fd2d01;
+  color: #fd2d01;
 }
 
 h2 {
-  border-bottom: 1px solid black;
-  padding-bottom: 20px;
-  padding-top: 20px;
+  
+    padding-bottom: 20px;
+  background-color: #fd2d01;
+  border-radius: 15px 15px 0px 0px;
+  padding:10px;
+  color:white;
 }
 </style>

@@ -8,7 +8,7 @@ require('dotenv').config();
 //const jwtCtrl=require("../middleware/auth");
 //const JWT_SECRET="MY_TOKEN_IS_SECRET";
 exports.AllUsers=(req,res,next)=>{
-    let sql="SELECT * FROM user";
+    const sql="SELECT * FROM user";
     con.query(sql,(err,result)=>{
       if(err) throw err;
       console.log(result);
@@ -17,8 +17,8 @@ exports.AllUsers=(req,res,next)=>{
   }
   
 exports.OneUser=(req,res,next)=>{
-    let sql="SELECT * FROM user WHERE id=?";
-    let insert=[req.params.id];
+    const sql="SELECT * FROM user WHERE id=?";
+    const insert=[req.params.id];
     con.query(sql,insert,(err,result)=>{
       if(err) throw err;
       console.log(result);
@@ -27,8 +27,8 @@ exports.OneUser=(req,res,next)=>{
   }
 
   exports.DeleteUser=(req,res,next)=>{
-    let sql="DELETE FROM user WHERE id=?;";
-    let insert=[req.params.id];
+    const sql="DELETE FROM user WHERE id=?;";
+    const insert=[req.params.id];
     con.query(sql,insert,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à supprimer un utilisateur ' })}
       else{  res.status(200).json( result)}
@@ -37,13 +37,13 @@ exports.OneUser=(req,res,next)=>{
   
 
 exports.signup=(req,res,next)=>{
-  let verifiPassword= new RegExp("^([a-z0-9]{2,})$");
+  const verifiPassword= new RegExp("^([a-z0-9]{2,})$");
   if(validator.validate(req.body.email)===true && verifiPassword.test(req.body.password)===true){
-    let psdCrypt=req.body.password;
+    const psdCrypt=req.body.password;
     bcrypt.hash(psdCrypt, 10, function(err,psdCrypt) {
-      let sql= "INSERT INTO user VALUES (NULL,?,?,?,?,?,2)";
-      let email=sha256.x2(req.body.email);
-      let insert=[req.body.nom, req.body.prenom, email, psdCrypt, req.body.poste];
+      const sql= "INSERT INTO user VALUES (NULL,?,?,?,?,?,2)";
+      const email=sha256.x2(req.body.email);
+      const insert=[req.body.nom, req.body.prenom, email, psdCrypt, req.body.poste];
       con.query(sql,insert,(err,result)=>{
         if(err) {res.status(400).json({ message: 'Utilisateur existant' })}
         else{  res.status(200).json({ message: 'Utilisateur ajouté' });}
@@ -58,8 +58,8 @@ exports.signup=(req,res,next)=>{
   
 exports.login=(req,res,next)=>{
   
-    let sql= "SELECT id,nom,prenom,poste,email,password,acces from user where email = ?";
-    let insert=[sha256.x2(req.body.email)];
+    const sql= "SELECT id,nom,prenom,poste,email,password,acces from user where email = ?";
+    const insert=[sha256.x2(req.body.email)];
 
     
    
@@ -69,11 +69,11 @@ exports.login=(req,res,next)=>{
      console.log(result[0]);
       if(result[0]==undefined){ res.status(400).json({ message: 'Aucun utilisateurs confirmé' }); }
       else{
-       let dataId=result[0].id;
-       let dataAcces=result[0].acces; 
-       let dataNom=result[0].nom;
-       let dataPrenom=result[0].prenom;
-       let dataPoste=result[0].poste;
+       const dataId=result[0].id;
+       const dataAcces=result[0].acces; 
+       const dataNom=result[0].nom;
+       const dataPrenom=result[0].prenom;
+       const dataPoste=result[0].poste;
    
       bcrypt.compare(req.body.password, result[0].password, function(err, result) {
      
@@ -102,15 +102,15 @@ exports.login=(req,res,next)=>{
     const userId = decodedToken.userId;
     console.log("le user id: "+ userId);
 
-    let sql="SELECT * FROM user WHERE id=?;";
-    let insert=[userId];
+    const sql="SELECT * FROM user WHERE id=?;";
+    const insert=[userId];
     con.query(sql,insert,(err,result)=>{
       if(err)  res.status(400).json({ message: 'faux'}) 
       else{
-        let userAcces=result[0].acces;
-        let dataNom=result[0].nom;
-        let dataPrenom=result[0].prenom;
-        let dataPoste=result[0].poste;
+        const userAcces=result[0].acces;
+        const dataNom=result[0].nom;
+        const dataPrenom=result[0].prenom;
+        const dataPoste=result[0].poste;
         
         res.status(200).json({userId:userId,userAcces,dataNom,dataPrenom,dataPoste}) }
 
@@ -118,9 +118,9 @@ exports.login=(req,res,next)=>{
   }
   
   exports.ModifyUser=(req,res,next)=>{
-    let sql=
+    const sql=
 "UPDATE user SET nom= ? , prenom= ? ,poste=? where id= ?;";
-let insert=[req.body.nom, req.body.prenom, req.body.poste, req.body.id]
+const insert=[req.body.nom, req.body.prenom, req.body.poste, req.body.id]
     con.query(sql,insert,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à modifier un utilisateur ' })}
       else{  res.status(200).json( result)}

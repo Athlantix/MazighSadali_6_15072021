@@ -6,7 +6,7 @@
     </div>
     <div class="logo">
       <img
-        src="https://user.oc-static.com/upload/2019/09/04/15676009353158_image2.png"
+        src="../assets/icon-above-font.png"
       />
     </div>
     <div class="accueil">
@@ -15,19 +15,20 @@
         <form @submit.prevent="createPost()" enctype="multipart/form-data">
           <p>
             Poster une publication
-            <input type="text" v-model="messageUser" ><label
+           
+          </p>
+           <textarea type="text" v-model="messageUser" ></textarea><label
               for="file"
               class="label"
             >
-            </label>
-            <input
+            </label><br/>
+            <input class="file"
               type="file"
               accept="image/*"
               ref="file"
               @change="uploadImage()"
             /><br />
             <button>Poster</button>
-          </p>
         </form>
       </div>
       <div class="publication" v-for="post in post" :key="post[i]">
@@ -250,15 +251,15 @@ p {
   text-decoration: none;
 }
 .publication {
-  background-color: rgb(246, 251, 255);
+
   text-align: center;
   width: 70%;
   margin: 0 auto;
   margin-top: 30px;
   margin-bottom: 30px;
-  padding: 10px;
+  padding-bottom: 15px;
   border-radius: 15px;
-  box-shadow: 10px 5px 5px rgb(196, 196, 196);
+  box-shadow: 2px 3px 5px rgb(196, 196, 196);
 }
 .image {
   width: 30%;
@@ -267,7 +268,7 @@ p {
   padding: 10px;
   color: white;
   display: flex;
-  background-color: black;
+  background-color: #fd2d01;
   justify-content: center;
   justify-content: flex-end;
 }
@@ -280,23 +281,28 @@ p {
 .router p {
   font-size: 20px;
   font-weight: bold;
-  border-bottom: 1px solid black;
   padding-bottom: 20px;
+  background-color: #fd2d01;
+  border-radius: 15px 15px 0px 0px;
+  padding:10px;
+  color:white;
 }
 h2 {
   padding: 10px;
 }
 button {
   padding: 5px;
-  background-color: rgb(59, 91, 161);
-  border: none;
+   background-color: white;
+  border: 1px solid #fd2d01;
+  color: #fd2d01;
   margin: 15px;
-  color: white;
+  
 }
 .logo {
 
   text-align: center;
-  margin: 40px;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 .logo img{
   width:40%;
@@ -305,4 +311,11 @@ button {
 h1{
   margin-bottom: 140px;;
 }
+textarea{
+  width:50%;
+  height:100px;
+  margin-bottom:10px;
+  font-size:20px;
+}
+
 </style>
