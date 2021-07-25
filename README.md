@@ -1,4 +1,4 @@
-# Projet Grouporama installation
+# Projet Groupomania installation
 
 
 Installation et lancement de l'application
