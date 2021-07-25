@@ -1,280 +1,312 @@
 <template>
-<div class="contain">
-  <div class="menu">
-  <router-link to="/profil" class="routerLink">Profil</router-link>
-  <a v-on:click="deleteStorage()">Déconnexion</a>
-  </div>
-  <div class='logo'>
-    <img src="https://user.oc-static.com/upload/2019/09/04/15676009353158_image2.png"/>
-  </div>
-<div class="accueil">
-  
-  <h1>Bienvenue: {{prenom}} {{nom}}</h1>
-    <div class="creaPublication">
-        
-          <form @submit.prevent="createPost()" enctype="multipart/form-data">
-          <p>Poster une publication <input type="text" v-model="messageUser"/><label for="file" class="label">  </label>
-          <input type="file" accept="image/*" ref="file" @change="uploadImage()"/><br>
-          <button>Poster</button> </p>
-          
-          
+  <div class="contain">
+    <div class="menu">
+      <router-link to="/profil" class="routerLink">Profil</router-link>
+      <a v-on:click="deleteStorage()">Déconnexion</a>
+    </div>
+    <div class="logo">
+      <img
+        src="https://user.oc-static.com/upload/2019/09/04/15676009353158_image2.png"
+      />
+    </div>
+    <div class="accueil">
+      <h1>Bienvenue: {{ prenom }} {{ nom }}</h1>
+      <div class="creaPublication">
+        <form @submit.prevent="createPost()" enctype="multipart/form-data">
+          <p>
+            Poster une publication
+            <input type="text" v-model="messageUser" ><label
+              for="file"
+              class="label"
+            >
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              ref="file"
+              @change="uploadImage()"
+            /><br />
+            <button>Poster</button>
+          </p>
         </form>
-    </div>
-  <div class="publication"  v-for="post in post" :key="post[i]" >
-      <router-link v-bind:to='"/publication/"+post.id' class="router" >
-      <div class="router">
-      
-        <p>{{post.prenom}} {{post.nom}}</p>
-        
-        <h2 v-if="post.texte !==null">{{post.texte}}</h2> <br>
-        <img :src="post.image" class="image"/><br>
-        <i>{{post.date}}</i>
-    </div>
-    </router-link>
+      </div>
+      <div class="publication" v-for="post in post" :key="post[i]">
+        <router-link v-bind:to="'/publication/' + post.id" class="router">
+          <div class="router">
+            <p>{{ post.prenom }} {{ post.nom }} : {{ post.poste }}</p>
 
-        <button v-if="parseInt(idUser)===parseInt(post.user_id) || userAcces===1 "  v-on:click="deletePublication(post.id)"> Supprimer</button>
-        <span v-else ></span>
-        <button v-if="parseInt(idUser)===parseInt(post.user_id)" v-on:click="showInput()"> Modifier</button>
-          <div class="modif" v-if="show==true && parseInt(idUser)===parseInt(post.user_id)">
-
-            <form @submit.prevent="modifyPublication(post.id)" enctype="multipart/form-data">
-              <input type="text" v-model="messageUserModif" />
-              <label for="file" class="label" ></label>
-               <input type="file" @change="previewFiles" multiple tabindex="-1">
-              <button >Envoyer</button>
-          </form>
-        
+            <h2 v-if="post.texte !== null">{{ post.texte }}</h2>
+            <br />
+            <img :src="post.image" class="image" /><br />
+            <i>{{ post.date }}</i>
           </div>
-          <span v-else ></span>
-  </div>
-</div>
-  </div>
+        </router-link>
 
+        <button
+          v-if="parseInt(idUser) === parseInt(post.user_id) || userAcces === 1"
+          v-on:click="deletePublication(post.id)"
+        >
+          Supprimer
+        </button>
+        <span v-else></span>
+        <button
+          v-if="parseInt(idUser) === parseInt(post.user_id)"
+          v-on:click="showInput(post.id)">
+          Modifier
+        </button>
+        <div
+          class="class"
+          v-if="show == true && parseInt(idUser) === parseInt(post.user_id)"
+        >
+          <form
+            @submit.prevent="modifyPublication(post.id)"
+            enctype="multipart/form-data"
+          >
+            <input  type="text"  ref="texte" v-model="messageUserModif" v-if="value===post.id"/>
+            
+            <label for="file" class="label"></label>
+            <input type="file" @change="previewFiles" multiple tabindex="-1" v-if="value===post.id" />
+            <button v-if="value===post.id">Envoyer</button>
+            
+          </form>
+        </div>
+        <span v-else></span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-
-
-
-const axios = require('axios');
-const token=localStorage.getItem("token");
+const axios = require("axios");
+const token = localStorage.getItem("token");
 //alert("haut"+ token)
 axios.interceptors.request.use(
-  config=>{
-    config.headers.authorization=`Bearer ${token}`;
-    return config
+  (config) => {
+    config.headers.authorization = `Bearer ${token}`;
+    return config;
   },
-  error => {return Promise.reject(error)}
-)
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export default {
-  name: 'publicationUser',
-    data(){
+  name: "publicationUser",
+  data() {
     return {
-      prenom:'',
-      nom:'',
-      show:null,
-      userAcces:'',
-      idUser:null,
-      messageUser:'',
-      messageUserModif:'',
-      file:'',
-      fileModif:'',
-      id_publication:0,
-      post:[],
-      }
+      value:'',
+      prenom: "",
+      nom: "",
+      show: null,
+      userAcces: "",
+      idUser: null,
+      messageUser: "",
+      messageUserModif: "",
+      file: "",
+      fileModif: "",
+      id_publication: 0,
+      post: [],
+    };
   },
 
-    async created(){
+  async created() {
+    axios
+      .get("http://localhost:3000/api/user/currentUser/get")
+      .then((response) => {
+        this.idUser = response.data.userId;
+        this.userAcces = response.data.userAcces;
+        this.prenom = response.data.dataPrenom;
+        this.nom = response.data.dataNom;
+        //alert(response.data.userId)
+      })
+      .catch();
 
-                axios.get("http://localhost:3000/api/user/currentUser/get")
-      .then(response=>{
-          this.idUser=response.data.userId;
-          this.userAcces=response.data.userAcces;
-          this.prenom=response.data.dataPrenom
-          this.nom=response.data.dataNom
-          //alert(response.data.userId)
-         }).catch();
-
-      //  alert(localStorage.getItem('token'))
-              axios.get("http://localhost:3000/api/publication")
-      .then(response=>{
-       
-         if(localStorage.getItem('token')!==null){
-        for(let i=0;i<response.data.length;i++){
-        this.post.push(response.data[i]);console.log(response.data[i])
-           }
-         }
-         console.log(response.data);
-      
-
-      }).catch();
-     
+    //  alert(localStorage.getItem('token'))
+    axios
+      .get("http://localhost:3000/api/publication")
+      .then((response) => {
+        if (localStorage.getItem("token") !== null) {
+          for (let i = 0; i < response.data.length; i++) {
+            this.post.push(response.data[i]);
+            console.log(response.data[i]);
+          }
+        }
+        console.log(response.data);
+      })
+      .catch();
   },
- methods:{
+  methods: {
+    toggle(){
+        this.show = !this.show
+    },
 
-          uploadImage(){
-            this.file=this.$refs.file.files[0];
-            console.log(this.file)
-                  },
+    uploadImage() {
+      this.file = this.$refs.file.files[0];
+      console.log(this.file);
+    },
 
-           previewFiles(event) {
-              this.fileModif=event.target.files[0]
+    previewFiles(event) {
+      this.fileModif = event.target.files[0];
       // process your files, read as DataUrl or upload...
       console.log(event.target.files[0]);
+    },
 
+    createPost() {
+      if (this.file === "") {
+        this.imageUser = "";
+        axios
+          .post("http://localhost:3000/api/publication", {
+            id: this.idUser,
+            message: this.messageUser,
+            image: "",
+          })
+          .then((response) => {
+            console.log("Ajouté" + response);
+            this.$router.go();
+          });
+      } else {
+        const formData = new FormData();
+        formData.append("image", this.file);
+
+        formData.append("id", this.idUser);
+        formData.append("message", this.messageUser);
+        console.log(this.file);
+        axios
+          .post("http://localhost:3000/api/publication", formData)
+          .then((response) => {
+            console.log("Ajouté" + response);
+            this.$router.go();
+          });
+      }
+    },
+
+    deletePublication(param) {
+      axios
+        .delete("http://localhost:3000/api/publication/" + param)
+        .then((response) => {
+          console.log(response);
+          console.log("supprimé" + response);
+          this.$router.go();
+        });
+    },
     
+    modifyPublication(param) {
+      if (this.fileModif === "") {
+        this.imageUser = "";
+        axios
+          .put("http://localhost:3000/api/publication/" + param, {
+            id: param,
+            texte: this.messageUserModif,
+            image: "",
+          })
+          .then((response) => {
+            console.log("Ajouté" + response);
+            this.$router.go();
+          });
+      } else {
+        console.log(this.fileModif);
+        const formData = new FormData();
+        formData.append("image", this.fileModif);
+        formData.append("id", param);
+        formData.append("texte", this.messageUserModif);
 
-   },
+        axios
+          .put("http://localhost:3000/api/publication/" + param, formData)
+          .then((response) => {
+            console.log(response);
+            console.log("supprimé" + response);
+            this.$router.go();
+          });
+      }
+      //-------------------
+    },
 
-          createPost(){
-
-           
-           if(this.file===''){
-           
-             this.imageUser="";
-               axios.post('http://localhost:3000/api/publication',{id:this.idUser,message:this.messageUser,image:""})
-            .then(response =>{
-               console.log("Ajouté"+response);
-               this.$router.go()
-            })
-           }else{
-              const formData=new FormData();
-            formData.append('image',this.file)
-
-            formData.append('id',this.idUser);
-            formData.append('message',this.messageUser);
-           console.log(this.file)
-                axios.post('http://localhost:3000/api/publication',formData)
-            .then(response =>{
-               console.log("Ajouté"+response);
-               this.$router.go()
-            })
-           }
-           
-         
-        },
-
-       
-
-        deletePublication(param){
-           axios.delete('http://localhost:3000/api/publication/'+param)
-           .then(response=>{ console.log(response); 
-             console.log("supprimé"+response)
-          this.$router.go()
-           });       
-        },
-        modifyPublication(param){
-              if(this.fileModif===''){
-             this.imageUser="";
-               axios.put('http://localhost:3000/api/publication/'+param,{id:param,texte:this.messageUserModif,image:''})
-            .then(response =>{
-               console.log("Ajouté"+response);
-               this.$router.go()
-            })
-           }
-           else{
-             console.log(this.fileModif)
-             const formData=new FormData();
-            formData.append('image',this.fileModif);
-            formData.append('id',param);
-            formData.append('texte',this.messageUserModif);
-
-           axios.put('http://localhost:3000/api/publication/'+param,
-            formData)
-           .then(response=>{ console.log(response); 
-             console.log("supprimé"+response)
-            this.$router.go()
-           }); 
-            
-           }
-          //-------------------
-
-
-
-        },
-         
-      deleteStorage () {
-        localStorage.clear();
-        this.idUser=null;
-        document.location.href = "/";
-      },
-     showInput(){
-       this.show=true;
-     }
+    deleteStorage() {
+      localStorage.clear();
+      this.idUser = null;
+      document.location.href = "/";
+    },
+    showInput(param) {
+      this.show = true;
+      this.value=param;
+      console.log(this.value)
+    
+    },
+    focus(){
+      this.$refs.texte.$el.focus()
+    }
   },
-
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
-.contain{
- width:100%
+.contain {
+  width: 100%;
 }
 
-.accueil{
-  width:90%;
-  text-align:center;
-  margin:0 auto;
+.accueil {
+  width: 90%;
+  text-align: center;
+  margin: 0 auto;
 }
-p{
-  color:black;
-
+p {
+  color: black;
 }
-.router{
-  color:black;
+.router {
+  color: black;
   text-decoration: none;
 }
-.publication{
+.publication {
   background-color: rgb(246, 251, 255);
-  text-align:center;
-  width:70%;
-  margin:0 auto;
-  margin-top:30px;
-  margin-bottom:30px;
-  padding:10px;
+  text-align: center;
+  width: 70%;
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 10px;
   border-radius: 15px;
   box-shadow: 10px 5px 5px rgb(196, 196, 196);
 }
-.image{
-  width:30%;
+.image {
+  width: 30%;
 }
-.menu{
-  padding:10px;
-  color:white;
-  display:flex;
- background-color: black;
+.menu {
+  padding: 10px;
+  color: white;
+  display: flex;
+  background-color: black;
   justify-content: center;
-  justify-content:flex-end;
+  justify-content: flex-end;
 }
-.routerLink{
+.routerLink {
   text-decoration: none;
-  margin-right:1%;
-  color:white;
+  margin-right: 1%;
+  color: white;
 }
 
-.router p{
-  font-size:20px;
-  font-weight:bold;
+.router p {
+  font-size: 20px;
+  font-weight: bold;
   border-bottom: 1px solid black;
-  padding-bottom:20px;
- 
+  padding-bottom: 20px;
 }
-h2{
-  padding:10px;
-
+h2 {
+  padding: 10px;
 }
-button{
-  padding:5px;
+button {
+  padding: 5px;
   background-color: rgb(59, 91, 161);
-  border:none;
-  margin:15px;
-  color:white;
+  border: none;
+  margin: 15px;
+  color: white;
 }
-.logo{
+.logo {
+
   text-align: center;
-    margin:40px;
+  margin: 40px;
+}
+.logo img{
+  width:40%;
 }
 </style>

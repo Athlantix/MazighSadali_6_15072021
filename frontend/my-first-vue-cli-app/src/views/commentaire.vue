@@ -1,9 +1,9 @@
 <template>
   <div id='App'>
 
-  <OnePublicationUser />
+    <OnePublicationUser />
        
-    </div>
+  </div>
 </template>
 
 <script>
