@@ -109,6 +109,7 @@ export default {
     };
   },
 
+//affectation des données utilisateurs et implémentation du tableau post contenant les données à afficher
   async created() {
     axios
       .get("http://localhost:3000/api/user/currentUser/get")
@@ -117,11 +118,8 @@ export default {
         this.userAcces = response.data.userAcces;
         this.prenom = response.data.dataPrenom;
         this.nom = response.data.dataNom;
-        //alert(response.data.userId)
       })
       .catch();
-
-    //  alert(localStorage.getItem('token'))
     axios
       .get("http://localhost:3000/api/publication")
       .then((response) => {
@@ -136,21 +134,18 @@ export default {
       .catch();
   },
   methods: {
-    toggle(){
-        this.show = !this.show
-    },
-
+    // récupération de l'image a upload de l'input création publication 
     uploadImage() {
       this.file = this.$refs.file.files[0];
       console.log(this.file);
     },
-
+    // récupération de l'image a upload parmis tout les input de modifications de publication
     previewFiles(event) {
       this.fileModif = event.target.files[0];
-      // process your files, read as DataUrl or upload...
       console.log(event.target.files[0]);
     },
 
+    //création d'une publication
     createPost() {
       if (this.file === "") {
         this.imageUser = "";
@@ -179,7 +174,7 @@ export default {
           });
       }
     },
-
+    //suppression d'une publication
     deletePublication(param) {
       axios
         .delete("http://localhost:3000/api/publication/" + param)
@@ -189,7 +184,7 @@ export default {
           this.$router.go();
         });
     },
-    
+    //modification d'une publication
     modifyPublication(param) {
       if (this.fileModif === "") {
         this.imageUser = "";
@@ -218,23 +213,20 @@ export default {
             this.$router.go();
           });
       }
-      //-------------------
     },
-
+    //suppression du localStorage et redirection vers la page de connexion
     deleteStorage() {
       localStorage.clear();
       this.idUser = null;
       document.location.href = "/";
     },
+    //affichage de l'input selectionné par le click du bouton modifier
     showInput(param) {
       this.show = true;
       this.value=param;
       console.log(this.value)
     
     },
-    focus(){
-      this.$refs.texte.$el.focus()
-    }
   },
 };
 </script>
@@ -308,5 +300,9 @@ button {
 }
 .logo img{
   width:40%;
+}
+
+h1{
+  margin-bottom: 140px;;
 }
 </style>

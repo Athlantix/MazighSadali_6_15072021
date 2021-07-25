@@ -70,6 +70,8 @@ export default {
       id_publication: this.$route.params.id,
     };
   },
+
+  //recupération des info utilisateurs, implémentation des données dans le tableau onePost contenant la publication à afficher
   async created() {
     axios
       .get("http://localhost:3000/api/user/currentUser/get")
@@ -96,6 +98,8 @@ export default {
       .catch();
   },
   methods: {
+
+    //création d'une publication
     createCommentairePost() {
       let userId = this.id_user;
       console.log(userId);
@@ -111,6 +115,8 @@ export default {
           this.$router.go();
         });
     },
+
+    //suppression du commentaire
     deleteCommentaire(param) {
       axios
         .delete("http://localhost:3000/api/publication/commentaire/" + param)
@@ -120,6 +126,8 @@ export default {
           this.$router.go();
         });
     },
+
+    //suppression du localStorage et redirection vers la page de connexion
     deleteStorage() {
       localStorage.clear();
       this.idUser = null;
@@ -128,10 +136,6 @@ export default {
   },
 };
 </script>
-
-
-
-
 
 
 

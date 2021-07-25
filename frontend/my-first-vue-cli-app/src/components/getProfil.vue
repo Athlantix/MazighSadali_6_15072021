@@ -73,9 +73,13 @@ export default {
       .catch();
   },
   methods: {
+
+    //afficher les champs modifications
     showInput() {
       this.show = true;
     },
+
+    //modifier un utilisateur
     modifyUser() {
       axios
         .put("http://localhost:3000/api/user", {
@@ -90,12 +94,14 @@ export default {
           this.$router.go();
         });
     },
+
+    //suppression localStorage et redirection à la page d'accueil
     deleteStorage() {
       localStorage.clear();
       this.idUser = null;
       document.location.href = "/";
     },
-
+  //supprimer un utilisateur
     deleteUser(param) {
       axios
         .delete("http://localhost:3000/api/user/" + param)
