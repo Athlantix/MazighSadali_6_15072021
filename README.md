@@ -1,4 +1,4 @@
-# MazighSadali_6_15072021
+# Projet Grouporama installation
 
 
 Installation et lancement de l'application
