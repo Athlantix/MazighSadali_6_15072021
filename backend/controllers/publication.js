@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 exports.CreatePublication=(req,res,next)=>{
-  let sql= "INSERT INTO publication VALUES(NULL,?,NOW(),?,?);";
+  const sql= "INSERT INTO publication VALUES(NULL,?,NOW(),?,?);";
   let image='';
   if(req.file===undefined){
     image='';
@@ -14,7 +14,7 @@ exports.CreatePublication=(req,res,next)=>{
     image= `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
   }
     console.log("haaaaaa IMGG: "+ image)
-  let insert=[ req.body.id, req.body.message, image ];
+  const insert=[ req.body.id, req.body.message, image ];
   console.log("voila : "+ req.files)
   con.query(sql,insert,(err,result)=>{
     if(err) {res.status(400).json({ message: 'Il y a une erreur dans le poste' })}
@@ -22,7 +22,7 @@ exports.CreatePublication=(req,res,next)=>{
   })
 }
 exports.AllPublication=(req,res,next)=>{
-    let sql=
+    const sql=
     " SELECT DISTINCT publication.id,user_id,date,texte,image,nom,prenom,poste FROM publication INNER JOIN user ON publication.user_id=user.id ORDER BY publication.id DESC;";
     con.query(sql,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à récupérer les publications ' })}
@@ -33,17 +33,17 @@ exports.AllPublication=(req,res,next)=>{
 
   exports.OnePublication=(req,res,next)=>{
 
-    let sql=
+    const sql=
     " SELECT DISTINCT publication.id,user_id,date,texte,image,nom,prenom,poste FROM publication INNER JOIN user ON publication.user_id=user.id WHERE publication.id=? ORDER BY publication.id DESC;";
-    let insert=[req.params.id];
+    const insert=[req.params.id];
     
 
-    let sqlCom=
+    const sqlCom=
     "SELECT DISTINCT commentaire.id,user_id,id_publication,dateCommentaire,message,user.nom,user.prenom FROM commentaire INNER JOIN user ON commentaire.user_id=user.id WHERE commentaire.id_publication=? ORDER BY commentaire.id DESC;"
     con.query(sql,insert,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à récupérer la publications' })}
       else{ 
-        let publication=result;
+        const publication=result;
         con.query(sqlCom,insert,(err,result)=>{
           if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à récupérer la publications' })}
           else{  res.status(200).json( 
@@ -66,10 +66,10 @@ else {
 
 }
 
-let sql=
+const sql=
 "UPDATE publication SET texte= ? , image = ? WHERE id= ?  ;";
 
-let insert=[req.body.texte, image,req.body.id]
+const insert=[req.body.texte, image,req.body.id]
 
     con.query(sql,insert,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à modifier la publication ' })}
@@ -85,9 +85,9 @@ let insert=[req.body.texte, image,req.body.id]
     console.log(decodedToken.acces);
    
 
-    let sql=" DELETE FROM publication WHERE id=?;";
+    const sql=" DELETE FROM publication WHERE id=?;";
  
-    let insert=[req.params.id];
+    const insert=[req.params.id];
     if(decodedToken.acces===1){
       con.query(sql,insert,(err,result)=>{
         if(err) {res.status(400).json({ err })}
@@ -111,8 +111,8 @@ let insert=[req.body.texte, image,req.body.id]
 
 
   exports.PostCommentaire=(req,res,next)=>{
-    let sql="insert into commentaire values (null,?,?,NOW(),?);";
-    let insert=[req.body.id_user,req.body.id_publication,req.body.message];
+    const sql="insert into commentaire values (null,?,?,NOW(),?);";
+    const insert=[req.body.id_user,req.body.id_publication,req.body.message];
     con.query(sql,insert,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à ajouter votre commentaires' })}
       else{  res.status(200).json({message:'Commentaire ajouté'} )}
@@ -125,8 +125,8 @@ let insert=[req.body.texte, image,req.body.id]
     const decodedToken = jwt.verify(token,process.env.JWT_SECRET); 
     console.log(decodedToken.acces);
    
-    let sql=" delete from commentaire where id=?;";
-    let insert=[req.params.id];
+    const sql=" delete from commentaire where id=?;";
+    const insert=[req.params.id];
 
     if (decodedToken.acces===1){
         con.query(sql,insert,(err,result)=>{
