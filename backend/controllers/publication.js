@@ -103,7 +103,7 @@ const insert=[req.body.texte, image,req.body.id]
 
       con.query(sql,insert,(err,result)=>{
         if(err) {res.status(400).json({ err })}
-        else{  res.status(200).json( {message:'Nous avons supprimé la publication'})}
+        else{  res.status(200).json( {message:'Nous avons supprimé la publication'});}
       })
     }
     
