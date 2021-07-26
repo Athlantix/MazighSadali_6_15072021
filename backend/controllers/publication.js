@@ -10,17 +10,18 @@ exports.CreatePublication=(req,res,next)=>{
     image='';
   }
   else { 
-    console.log("OH OUIIII")
+   
     image= `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
   }
-    console.log("haaaaaa IMGG: "+ image)
+   
   const insert=[ req.body.id, req.body.message, image ];
   console.log("voila : "+ req.files)
   con.query(sql,insert,(err,result)=>{
     if(err) {res.status(400).json({ message: 'Il y a une erreur dans le poste' })}
-    else{  res.status(200).json({ message: 'Poste ajouté' });}
+    else{  res.status(201).json({ message: 'Poste ajouté' });}
   })
 }
+
 exports.AllPublication=(req,res,next)=>{
     const sql=
     " SELECT DISTINCT publication.id,user_id,date,texte,image,nom,prenom,poste FROM publication INNER JOIN user ON publication.user_id=user.id ORDER BY publication.id DESC;";
@@ -61,7 +62,7 @@ if(req.file===undefined){
   image='';
 }
 else { 
-  console.log("OH OUIIII")
+  
   image= `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
 
 }
@@ -115,7 +116,7 @@ const insert=[req.body.texte, image,req.body.id]
     const insert=[req.body.id_user,req.body.id_publication,req.body.message];
     con.query(sql,insert,(err,result)=>{
       if(err) {res.status(400).json({ message: 'Nous ne parvenons pas à ajouter votre commentaires' })}
-      else{  res.status(200).json({message:'Commentaire ajouté'} )}
+      else{  res.status(201).json({message:'Commentaire ajouté'} )}
     })
   }
 
